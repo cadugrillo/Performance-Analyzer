@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  angular:
+    image: cadugrillo/angular-app1:2.1
+    container_name: angular
+    restart: always
+    ports:
+      - 80:80
+
+  golang:
+    image: cadugrillo/golang-app1:2.0
+    container_name: golang
+    restart: always
+    environment:
+      - DBDRIVER=mysql
+      - DBIPADDRESS=mysql
+      - DBPORT=3306
+      - DBUSER=root
+      - DBPASSWORD=root
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=todo
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
+  
+   
+

@@ -1,0 +1,29 @@
+<mat-toolbar class="app-toolbar">
+  <span></span>
+</mat-toolbar>
+<div class="Users">
+  <mat-card class="example-card">
+      <mat-card-title-group>
+        <mat-card-title>Sign in</mat-card-title>
+        <mat-card-subtitle></mat-card-subtitle>
+      </mat-card-title-group>
+      <mat-card-content>
+          <div class="topline">
+              <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Email</mat-label>
+                  <input matInput placeholder="" [(ngModel)]="user.email">
+              </mat-form-field>
+              <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Password</mat-label>
+                  <input matInput autocomplete="off" (keydown.enter)="signIn()" type="password" placeholder="" [(ngModel)]="user.password" matTooltip="Password must contain one number, upper and lowercase, special character (!@#$%^&*_=+-) and 8 or more characters">
+              </mat-form-field>
+          </div>
+          <div class="middleline">
+            <button mat-raised-button color="primary" (click)="signIn()">Sign in</button>
+            <h3>Don't have an account? Click <span style="cursor: pointer; color:blue;" (click)="goToSignUp()">here.</span></h3>
+          </div>
+      </mat-card-content>
+      <mat-card-actions align="end"></mat-card-actions>
+  </mat-card>
+</div>
+

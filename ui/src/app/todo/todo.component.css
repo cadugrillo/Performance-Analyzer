@@ -1,0 +1,42 @@
+.app-toolbar {
+  position: fixed;
+  z-index: 1000;
+  margin-top: 64px;
+  
+}
+
+button {
+    width: auto;
+    margin: 5px;
+    margin-left: 10px;
+  }
+  
+h2 {
+  margin-left: 30px;
+}
+
+.input {
+  margin: auto;
+  width: 50%;
+  padding: 5px;
+  margin-top: 148px;
+  margin-bottom: 30px;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+table {
+  width: 80%;
+  margin-left: 30px;
+  margin-bottom: 50px;
+  align-self: center;
+}
+
+.example-full-width {
+  width: 500px;
+}
+

@@ -1,0 +1,12 @@
+.example-spacer {
+    flex: 1 1 auto;
+  }
+
+  .example-icon {
+    margin-left: 20px;
+  }
+
+  .app-toolbar {
+    position: fixed;
+    z-index: 2000;
+}

@@ -1,0 +1,46 @@
+<mat-toolbar class="app-toolbar">
+  <span></span>
+</mat-toolbar>
+<div class="Users">
+  <mat-card class="example-card" *ngIf="!isConfirm">
+      <mat-card-title-group>
+        <mat-card-title>Sign up</mat-card-title>
+        <mat-card-subtitle></mat-card-subtitle>
+      </mat-card-title-group>
+      <mat-card-content>
+          <div class="topline">
+              <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Enter Valid Email</mat-label>
+                  <input matInput placeholder="" [(ngModel)]="user.email">
+              </mat-form-field>
+              <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Choose Password</mat-label>
+                  <input matInput autocomplete="off" (keydown.enter)="signUp()" type="password" placeholder="" [(ngModel)]="user.password" matTooltip="Password must contain one number, upper and lowercase, special character (!@#$%^&*_=+-) and 8 or more characters">
+              </mat-form-field>
+          </div>
+          <div class="middleline">
+            <button mat-raised-button color="primary" (click)="signUp()">Sign up</button>
+            <h3>Already have an account? Click <span style="cursor: pointer; color:blue;" (click)="goToSignIn()">here.</span></h3>
+          </div>
+      </mat-card-content>
+      <mat-card-actions align="end"></mat-card-actions>
+  </mat-card>
+  <mat-card class="example-card" *ngIf="isConfirm">
+    <mat-card-title-group>
+      <mat-card-title>We sent you an email with a verification code</mat-card-title>
+      <mat-card-subtitle></mat-card-subtitle>
+    </mat-card-title-group>
+    <mat-card-content>
+        <div class="topline">
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Verification Code</mat-label>
+                <input matInput placeholder="" [(ngModel)]="user.code">
+            </mat-form-field>
+        </div>
+        <div class="middleline">
+          <button mat-raised-button color="primary" (click)="confirmSignUp()">Confirm Code</button>
+        </div>
+    </mat-card-content>
+    <mat-card-actions align="end"></mat-card-actions>
+</mat-card>
+</div>

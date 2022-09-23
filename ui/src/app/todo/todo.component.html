@@ -1,0 +1,76 @@
+<mat-toolbar class="app-toolbar">
+  <span>To-do List</span>
+</mat-toolbar>
+<div class="flex-container">
+  <div class="input">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>New Item</mat-label>
+      <input matInput placeholder="Ex. Take my dog for a walk" [(ngModel)]="todoMessage">
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="addTodo()">Add New Item</button>
+  </div>
+</div>
+<div class="flex-container">
+<h2>Open Items:</h2>
+<table mat-table [dataSource]="activeTodos" class="mat-elevation-z8" *ngIf="activeTodos">
+
+  <!-- Description Column -->
+  <ng-container matColumnDef="description">
+    <th style="text-align:left" mat-header-cell *matHeaderCellDef> DESCRIPTION </th>
+    <td style="text-align:left" mat-cell *matCellDef="let todo"> {{todo.message}} </td>
+  </ng-container>
+
+  <!-- Actions Column -->
+  <ng-container matColumnDef="actions">
+    <th style="text-align:right" mat-header-cell *matHeaderCellDef> ACTIONS </th>
+    <td style="text-align:right" mat-cell *matCellDef="let todo">  
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu class="action-menu" #menu="matMenu">
+        <button mat-menu-item (click)="completeTodo(todo)">
+          <mat-icon>done</mat-icon>
+          <span>Done</span>
+        </button>
+        <button mat-menu-item (click)="deleteTodo(todo)">
+          <mat-icon>clear</mat-icon>
+          <span>Delete</span>
+        </button>
+      </mat-menu>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>
+<h2>Finished Items:</h2>
+<table mat-table [dataSource]="completedTodos" class="mat-elevation-z8" *ngIf="completedTodos">
+
+  <!-- Description Column -->
+  <ng-container matColumnDef="description">
+    <th style="text-align:left" mat-header-cell *matHeaderCellDef> DESCRIPTION </th>
+    <td style="text-align:left" mat-cell *matCellDef="let todo"> {{todo.message}} </td>
+  </ng-container>
+
+  <!-- Actions Column -->
+  <ng-container matColumnDef="actions">
+    <th style="text-align:right" mat-header-cell *matHeaderCellDef> ACTIONS </th>
+    <td style="text-align:right" mat-cell *matCellDef="let todo">  
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu class="action-menu" #menu="matMenu">
+        <button mat-menu-item (click)="deleteTodo(todo)">
+          <mat-icon>clear</mat-icon>
+          <span>Delete</span>
+        </button>
+      </mat-menu>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>
+</div>
