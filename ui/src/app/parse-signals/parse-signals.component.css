@@ -1,0 +1,87 @@
+.app-toolbar {
+    position: fixed;
+    z-index: 1000;
+    margin-top: 64px;
+}
+
+section {
+  display: table;
+  margin-top: 148px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  position: absolute;
+}
+
+.example-button-row {
+  display: table-cell;
+  width: 900px;
+}
+
+.example-button-row .mat-button-base {
+  margin: 8px;
+}
+
+.mat-input {
+  width: 400px;
+  margin-right: 20px;
+}
+
+.mat-filter {
+  font-size: 14px;
+  width: 100%;
+}
+
+.table-wrapper {
+  margin-top: 238px;
+  margin-left: 20px;
+  width: 95%;
+  position: absolute;
+ }
+
+table {
+  width: 100%;
+}
+  
+  tr.example-detail-row {
+    height: 0;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):hover {
+    background: whitesmoke;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+  }
+  
+  .example-element-row td {
+    border-bottom-width: 0;
+  }
+  
+  .example-element-detail {
+    overflow: hidden;
+    display: flex;
+  }
+  
+  .example-element-diagram {
+    min-width: 80px;
+    border: 2px solid black;
+    padding: 8px;
+    font-weight: lighter;
+    margin: 8px 0;
+    height: 104px;
+  }
+  
+  .example-element-symbol {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: normal;
+  }
+  
+  .example-element-description {
+    padding: 16px;
+  }
+  
+  .example-element-description-attribution {
+    opacity: 0.5;
+  }

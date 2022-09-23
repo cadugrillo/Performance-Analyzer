@@ -27,7 +27,6 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { TodoComponent } from './todo/todo.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
@@ -37,6 +36,8 @@ import { TokenInterceptor } from './token.interceptor';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MqttClientService } from "./mqttClient.service";
 import { MqttClientComponent } from './mqtt-client/mqtt-client.component';
+import { SignalsService } from "./signals.service";
+import { ParseSignalsComponent } from './parse-signals/parse-signals.component';
 
 const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: env.mqtt.server,
@@ -52,13 +53,13 @@ const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   declarations: [
     AppComponent,
     HomeComponent,
-    TodoComponent,
     ProfileComponent,
     SignInComponent,
     SignUpComponent,
     MessagePopupComponent,
     WaitPopupComponent,
-    MqttClientComponent
+    MqttClientComponent,
+    ParseSignalsComponent
   ],
   imports: [
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
@@ -85,7 +86,7 @@ const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     BrowserAnimationsModule,
     MatTooltipModule
   ],
-  providers: [TodoService, {
+  providers: [TodoService, SignalsService, {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
     multi: true
