@@ -33,6 +33,6 @@ export class AppComponent {
   }
 
   openWebPage() {
-    window.open('https://github.com/cadugrillo/golang-angular-App1', '_blank');
+    window.open('https://github.com/cadugrillo/Performance-Analyzer', '_blank');
   }
 }
