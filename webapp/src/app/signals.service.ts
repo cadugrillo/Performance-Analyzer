@@ -13,3 +13,8 @@ export class SignalsService {
     return this.httpClient.post(environment.gateway + '/performance-analyzer/signals/parse', file);
   }
 }
+
+export class ParsedSignals {
+  aggregation!: string
+  signalIds!: string[]
+}

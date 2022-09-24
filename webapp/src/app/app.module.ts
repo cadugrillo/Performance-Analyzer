@@ -30,7 +30,6 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
-import { TodoService } from './todo.service';
 import { FormsModule } from '@angular/forms';
 import { TokenInterceptor } from './token.interceptor';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -86,7 +85,7 @@ const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     BrowserAnimationsModule,
     MatTooltipModule
   ],
-  providers: [TodoService, SignalsService, {
+  providers: [SignalsService, {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
     multi: true

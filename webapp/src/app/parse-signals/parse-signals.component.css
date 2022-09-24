@@ -1,0 +1,73 @@
+.app-toolbar {
+    position: fixed;
+    z-index: 1000;
+    margin-top: 64px;
+}
+
+section {
+  display: table;
+  margin-top: 148px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  position: absolute;
+}
+
+.example-button-row {
+  display: table-cell;
+  width: 900px;
+}
+
+.parse-button-row {
+  display: table-cell;
+  width: 400px;
+  margin: 8px;
+}
+
+button {
+  margin-right: 30px;
+}
+
+.example-button-row .mat-button-base {
+  margin: 8px;
+}
+
+.mat-input {
+  width: 400px;
+  margin-right: 20px;
+}
+
+.mat-filter {
+  font-size: 14px;
+  width: 100%;
+}
+
+  .example-card {
+    margin-top: 20px;
+    max-height: 1600px;
+    width: 30%;
+    background-color: rgb(245, 245, 248);
+    overflow: hidden;
+  }
+
+  .inner-card {
+    margin-top: 20px;
+    max-height: 600px;
+    width: 91%;
+    background-color: rgb(255, 255, 255);
+    overflow: auto;
+  }
+
+  .inner-card-text {
+    max-height: 100%;
+  }
+
+  .same-line {
+    display: inline;
+  }
+
+  .tab-group {
+    margin-top: 238px;
+    margin-left: 20px;
+    position: absolute;
+    width: 95%;
+   }

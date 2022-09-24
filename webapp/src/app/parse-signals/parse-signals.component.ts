@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SignalsService } from '../signals.service';
+import { SignalsService, ParsedSignals } from '../signals.service';
+import { saveAs } from "file-saver";
 
 @Component({
   selector: 'app-parse-signals',
@@ -8,7 +9,8 @@ import { SignalsService } from '../signals.service';
 })
 export class ParseSignalsComponent implements OnInit {
 
-  @ViewChild('file') file: any
+  @ViewChild('file') file: any;
+  parsedSignals!: ParsedSignals;
 
   constructor(private SignalsService: SignalsService) { }
 
@@ -21,13 +23,18 @@ export class ParseSignalsComponent implements OnInit {
   
    onFilesAdded() {
     const xlsx = this.file.nativeElement.files[0];
-    this.file.nativeElement.value = "";
-    const formData = new FormData();
-    formData.append("Signals.xlsx", xlsx);
-
     this.SignalsService.parseSignals(xlsx).subscribe((data) => {
-      console.log(data);
+      this.parsedSignals = data as ParsedSignals;
+      //console.log(this.parsedSignals);
     });
    }
+
+   toString(parsedSignals: Object): string {
+    return JSON.stringify(parsedSignals, null, 4);
+  }
+
+  exportMessages() {
+    return saveAs(new Blob([JSON.stringify(this.parsedSignals, null, 2)], { type: 'JSON' }), 'parsedSignals.json');
+  }
 
 }

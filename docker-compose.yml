@@ -1,36 +1,17 @@
 version: "3.7"
 
 services:
-  angular:
-    image: cadugrillo/angular-app1:2.1
-    container_name: angular
+  perf-analyzer-webapp:
+    image: cadugrillo/perf-analyzer-webapp:1.0
+    container_name: perf-analyzer-webapp
     restart: always
     ports:
       - 80:80
 
-  golang:
-    image: cadugrillo/golang-app1:2.0
-    container_name: golang
+  perf-analyzer-api:
+    image: cadugrillo/perf-analyzer-api:1.0
+    container_name: perf-analyzer-api
     restart: always
-    environment:
-      - DBDRIVER=mysql
-      - DBIPADDRESS=mysql
-      - DBPORT=3306
-      - DBUSER=root
-      - DBPASSWORD=root
-
-  mysql:
-    image: mysql:latest
-    container_name: mysql
-    restart: always
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=todo
-    volumes:
-      - mysql-data:/var/lib/mysql
-
-volumes:
-  mysql-data:
   
    
 

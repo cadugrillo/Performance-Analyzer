@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	//gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.Use(CORSMiddleware())
 
@@ -25,7 +25,6 @@ func main() {
 	})
 
 	r.POST("/performance-analyzer/signals/parse", handlers.ParseSignalsHandler)
-	r.GET("/app1/todo/:userId", handlers.GetTodoListHandler)
 
 	httpPort := os.Getenv("HTTP_PORT")
 	if httpPort == "" {
