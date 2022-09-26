@@ -1,0 +1,65 @@
+<mat-toolbar class="app-toolbar">
+    <span>Signal Analyzer</span>
+  </mat-toolbar>
+<mat-tab-group class="tab-group">
+  <mat-tab label="Configuration">
+    <div class="apps">
+      <mat-card class="parse-card">
+        <mat-card-title-group>
+          <mat-card-title>Parse Signal List</mat-card-title>
+          <mat-card-subtitle></mat-card-subtitle>
+        </mat-card-title-group>
+        <mat-card-content>
+          <div class="parse-button-row">
+            <button mat-raised-button color="primary" (click)="importConfig()">Import XLSX</button>
+            <input type="file" #file accept=".xlsx" style="display: none" (change)="onFilesAdded()"/>
+            <button mat-raised-button color="primary"  [disabled]="parsedSignals==null" (click)="exportParsedSignals()">Export JSON</button>
+          </div>
+          <mat-card class="inner-card">
+            <mat-card-title-group>
+            <mat-card-title></mat-card-title>
+            <mat-card-subtitle></mat-card-subtitle>
+            </mat-card-title-group>
+            <mat-card-content class="inner-card-text" *ngIf="parsedSignals" [innerText]="toString(parsedSignals)"></mat-card-content>
+          </mat-card>
+        </mat-card-content>
+        <mat-card-actions align="end"></mat-card-actions>
+      </mat-card>
+      <mat-card class="query-card">
+        <mat-card-title-group>
+          <mat-card-title>Query Endpoint</mat-card-title>
+          <mat-card-subtitle></mat-card-subtitle>
+        </mat-card-title-group>
+        <mat-card-content>
+          <div class="query-button-row">
+            <mat-form-field class="mat-input-small" appearance="standard">
+              <mat-label>Amount</mat-label>
+              <input  matInput autocomplete="off" placeholder="10, 100, etc." [(ngModel)]="recordAmount">
+            </mat-form-field>
+            <mat-form-field class="mat-input-medium" appearance="standard">
+              <mat-label>Millis</mat-label>
+              <input  matInput autocomplete="off" placeholder="1664078400000" [(ngModel)]="millis">
+            </mat-form-field>
+            <mat-form-field class="mat-input-large" appearance="standard">
+              <mat-label>Token</mat-label>
+              <input  matInput autocomplete="off" placeholder="eyJhbGciOiJSUzI1..." [(ngModel)]="token">
+            </mat-form-field>
+            <button mat-raised-button color="primary"  [disabled]="parsedSignals==null" (click)="queryEndpoint()">Send</button>
+            <button mat-raised-button color="primary" (click)="exportEndpointResponse()">Export JSON</button>
+          </div>
+          <mat-card class="inner-card">
+            <mat-card-title-group>
+            <mat-card-title></mat-card-title>
+            <mat-card-subtitle></mat-card-subtitle>
+            </mat-card-title-group>
+            <mat-card-content class="inner-card-text" *ngIf="parsedSignals" [innerText]="toString(parsedSignals)"></mat-card-content>
+          </mat-card>
+        </mat-card-content>
+        <mat-card-actions align="end"></mat-card-actions>
+      </mat-card>
+    </div>
+  </mat-tab>
+  <mat-tab label="Results">
+    <p>Placeholder for results</p>
+  </mat-tab>
+</mat-tab-group>

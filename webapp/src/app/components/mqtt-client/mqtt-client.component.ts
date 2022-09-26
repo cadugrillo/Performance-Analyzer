@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { Subscription } from 'rxjs';
 import { IMqttMessage } from "ngx-mqtt";
-import { MqttClientService } from '../mqttClient.service';
+import { MqttClientService } from '../../services/mqttClient.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MessagePopupComponent } from '../message-popup/message-popup.component';

@@ -12,6 +12,19 @@ section {
   position: absolute;
 }
 
+.tab-group {
+  margin-top: 148px;
+  margin-left: 20px;
+  position: absolute;
+  width: 95%;
+ }
+
+ .apps {
+  width: 100%;
+  display: inline-grid;
+  grid-template-columns: 30% 70%;
+}
+
 .example-button-row {
   display: table-cell;
   width: 900px;
@@ -23,6 +36,12 @@ section {
   margin: 8px;
 }
 
+.query-button-row {
+  display: table-cell;
+  width: 1000px;
+  margin: 8px;
+}
+
 button {
   margin-right: 30px;
 }
@@ -31,8 +50,18 @@ button {
   margin: 8px;
 }
 
-.mat-input {
-  width: 400px;
+.mat-input-small {
+  width: 80px;
+  margin-right: 20px;
+}
+
+.mat-input-medium {
+  width: 150px;
+  margin-right: 20px;
+}
+
+.mat-input-large {
+  width: 200px;
   margin-right: 20px;
 }
 
@@ -41,10 +70,20 @@ button {
   width: 100%;
 }
 
-  .example-card {
+  .parse-card {
     margin-top: 20px;
+    margin-right: 20px;
     max-height: 1600px;
-    width: 30%;
+    width: 90%;
+    background-color: rgb(245, 245, 248);
+    overflow: hidden;
+  }
+
+  .query-card {
+    margin-top: 20px;
+    margin-right: 20px;
+    max-height: 1600px;
+    width: 90%;
     background-color: rgb(245, 245, 248);
     overflow: hidden;
   }
@@ -64,10 +103,3 @@ button {
   .same-line {
     display: inline;
   }
-
-  .tab-group {
-    margin-top: 238px;
-    margin-left: 20px;
-    position: absolute;
-    width: 95%;
-   }

@@ -17,8 +17,8 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatListModule} from '@angular/material/list';
 import {MatSelectModule} from '@angular/material/select';
-import { MessagePopupComponent } from './message-popup/message-popup.component';
-import { WaitPopupComponent } from './wait-popup/wait-popup.component';
+import { MessagePopupComponent } from './components/message-popup/message-popup.component';
+import { WaitPopupComponent } from './components/wait-popup/wait-popup.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatTableModule} from '@angular/material/table';
@@ -26,17 +26,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { ProfileComponent } from './profile/profile.component';
-import { SignInComponent } from './sign-in/sign-in.component';
-import { SignUpComponent } from './sign-up/sign-up.component';
+import { HomeComponent } from './components/home/home.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { SignInComponent } from './components/sign-in/sign-in.component';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { FormsModule } from '@angular/forms';
 import { TokenInterceptor } from './token.interceptor';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MqttClientService } from "./mqttClient.service";
-import { MqttClientComponent } from './mqtt-client/mqtt-client.component';
-import { SignalsService } from "./signals.service";
-import { ParseSignalsComponent } from './parse-signals/parse-signals.component';
+import { MqttClientService } from "./services/mqttClient.service";
+import { MqttClientComponent } from './components/mqtt-client/mqtt-client.component';
+import { SignalsService } from "./services/signals.service";
+import { AnalyzeSignalsComponent } from './components/analyze-signals/analyze-signals.component';
 
 const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: env.mqtt.server,
@@ -58,7 +58,7 @@ const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     MessagePopupComponent,
     WaitPopupComponent,
     MqttClientComponent,
-    ParseSignalsComponent
+    AnalyzeSignalsComponent
   ],
   imports: [
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS),

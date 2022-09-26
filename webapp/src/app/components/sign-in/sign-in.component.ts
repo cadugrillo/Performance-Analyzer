@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { MessagePopupComponent } from '../message-popup/message-popup.component';
 import { WaitPopupComponent } from '../wait-popup/wait-popup.component';
 
-import { IUser, CognitoService } from '../cognito.service';
+import { IUser, CognitoService } from '../../services/cognito.service';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({

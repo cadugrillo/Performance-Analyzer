@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { CognitoService } from './cognito.service';
+import { CognitoService } from './services/cognito.service';
 
 @Component({
   selector: 'app-root',
