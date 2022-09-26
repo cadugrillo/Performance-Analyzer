@@ -11,8 +11,8 @@
         </mat-card-title-group>
         <mat-card-content>
           <div class="parse-button-row">
-            <button mat-raised-button color="primary" (click)="importConfig()">Import XLSX</button>
-            <input type="file" #file accept=".xlsx" style="display: none" (change)="onFilesAdded()"/>
+            <button mat-raised-button color="primary" (click)="importSigToParse()">Import XLSX</button>
+            <input type="file" #xlsx accept=".xlsx" style="display: none" (change)="onSigToParseAdded()"/>
             <button mat-raised-button color="primary"  [disabled]="parsedSignals==null" (click)="exportParsedSignals()">Export JSON</button>
           </div>
           <mat-card class="inner-card">
@@ -36,15 +36,17 @@
               <mat-label>Amount</mat-label>
               <input  matInput autocomplete="off" placeholder="10, 100, etc." [(ngModel)]="recordAmount">
             </mat-form-field>
-            <mat-form-field class="mat-input-medium" appearance="standard">
+            <!-- <mat-form-field class="mat-input-medium" appearance="standard">
               <mat-label>Millis</mat-label>
               <input  matInput autocomplete="off" placeholder="1664078400000" [(ngModel)]="millis">
             </mat-form-field>
             <mat-form-field class="mat-input-large" appearance="standard">
               <mat-label>Token</mat-label>
               <input  matInput autocomplete="off" placeholder="eyJhbGciOiJSUzI1..." [(ngModel)]="token">
-            </mat-form-field>
-            <button mat-raised-button color="primary"  [disabled]="parsedSignals==null" (click)="queryEndpoint()">Send</button>
+            </mat-form-field> -->
+            <!-- <button mat-raised-button color="primary"  [disabled]="parsedSignals==null" (click)="queryEndpoint()">Send</button> -->
+            <button mat-raised-button color="primary" (click)="importEndpResponse()">Import JSON</button>
+            <input type="file" #json accept=".json" style="display: none" (change)="onEndpResponseAdded()"/>
             <button mat-raised-button color="primary" (click)="exportEndpointResponse()">Export JSON</button>
           </div>
           <mat-card class="inner-card">

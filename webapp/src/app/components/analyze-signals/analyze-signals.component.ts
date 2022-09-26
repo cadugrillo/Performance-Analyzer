@@ -10,7 +10,8 @@ import { saveAs } from "file-saver";
 })
 export class AnalyzeSignalsComponent implements OnInit {
 
-  @ViewChild('file') file: any;
+  @ViewChild('xlsx') xlsx: any;
+  @ViewChild('json') json: any;
   parsedSignals!: ParsedSignals;
   recordAmount!: number;
   millis!: number;
@@ -22,25 +23,52 @@ export class AnalyzeSignalsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  importConfig() {
-    this.file.nativeElement.click();
+  ///////COMMON FUNCTIONS///////////////////
+
+  toString(parsedSignals: Object): string {
+    return JSON.stringify(parsedSignals, null, 4);
+  }
+
+
+  ///////PARSE SIGNALS FUNCTIONS/////////////////////////////
+
+  importSigToParse() {
+    this.xlsx.nativeElement.click();
    }
   
-   onFilesAdded() {
-    const xlsx = this.file.nativeElement.files[0];
+   onSigToParseAdded() {
+    const xlsx = this.xlsx.nativeElement.files[0];
     this.SignalsService.parseSignals(xlsx).subscribe((data) => {
       this.parsedSignals = data as ParsedSignals;
       //console.log(this.parsedSignals);
     });
    }
 
-   toString(parsedSignals: Object): string {
-    return JSON.stringify(parsedSignals, null, 4);
-  }
-
   exportParsedSignals() {
     return saveAs(new Blob([JSON.stringify(this.parsedSignals, null, 2)], { type: 'JSON' }), 'parsedSignals.json');
   }
+
+
+  ///////ENDPOINT RESPONSE FUNCTIONS/////////////////////////////
+
+  importEndpResponse() {
+    this.json.nativeElement.click();
+   }
+  
+   onEndpResponseAdded() {
+    const json = this.json.nativeElement.files[0];
+    this.SignalsService.endpointResponse(json).subscribe((data) => {
+      //this.parsedSignals = data as ParsedSignals;
+      console.log(data);
+    });
+   }
+
+   exportEndpointResponse() {
+    return saveAs(new Blob([JSON.stringify(this.parsedSignals, null, 2)], { type: 'JSON' }), 'EndpointResponse.json');
+  }
+
+
+  ///////QUERY ENDPOINT FUNCTIONS/////////////////////////////
 
   queryEndpoint() {
     this.IotCoreEndpointService.getBulkSignals(this.recordAmount, this.millis, this.token, this.parsedSignals).subscribe((data) => {
@@ -48,8 +76,6 @@ export class AnalyzeSignalsComponent implements OnInit {
     });
   }
 
-  exportEndpointResponse() {
-    return saveAs(new Blob([JSON.stringify(this.parsedSignals, null, 2)], { type: 'JSON' }), 'EndpointResponse.json');
-  }
+
 
 }

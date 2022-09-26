@@ -12,6 +12,10 @@ export class SignalsService {
   parseSignals(file: any) {
     return this.httpClient.post(environment.gateway + '/performance-analyzer/signals/parse', file);
   }
+
+  endpointResponse(file: any) {
+    return this.httpClient.post(environment.gateway + '/performance-analyzer/signals/endresponse', file);
+  }
 }
 
 export class ParsedSignals {

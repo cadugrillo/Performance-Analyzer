@@ -1,24 +1,31 @@
 package handlers
 
 import (
+	"encoding/json"
 	"io"
 	"io/fs"
 	"io/ioutil"
 	"net/http"
 
+	parsesignals "performance-analyzer/modules/parse-signals"
 	xlsxsignals "performance-analyzer/modules/parse-signals"
 
 	"github.com/gin-gonic/gin"
 )
 
-// ////////////PARSE SIGNALS HANDLER/////////////////
+///////////////PARSE SIGNALS HANDLER/////////////////
 func ParseSignalsHandler(c *gin.Context) {
 	statusCode, err := FileBodyToExcel(c.Request.Body)
 	if err != nil {
 		c.JSON(statusCode, err)
 		return
 	}
-	c.JSON(http.StatusOK, xlsxsignals.ParseSignals())
+	parsedSignals, err := xlsxsignals.ParseExcelSignals()
+	if err != nil {
+		c.JSON(statusCode, err)
+		return
+	}
+	c.JSON(http.StatusOK, parsedSignals)
 
 }
 
@@ -31,6 +38,36 @@ func FileBodyToExcel(httpBody io.ReadCloser) (int, error) {
 	ioutil.WriteFile("Signals.xlsx", file, fs.ModePerm)
 
 	return http.StatusOK, nil
+}
+
+///////////////ENDPOINT RESPONSE HANDLER/////////////////
+
+func EndpointResponseHandler(c *gin.Context) {
+	Response, statusCode, err := JsonBodyToEndpointResponse(c.Request.Body)
+	if err != nil {
+		c.JSON(statusCode, err)
+		return
+	}
+	EndpointResponse, err := xlsxsignals.CheckEndpointResponse(Response)
+	if err != nil {
+		c.JSON(statusCode, err)
+		return
+	}
+	c.JSON(http.StatusOK, EndpointResponse)
+}
+
+func JsonBodyToEndpointResponse(httpBody io.ReadCloser) (parsesignals.EndpointResponse, int, error) {
+	body, err := ioutil.ReadAll(httpBody)
+	if err != nil {
+		return parsesignals.EndpointResponse{}, http.StatusInternalServerError, err
+	}
+	defer httpBody.Close()
+	var EndpointResponse parsesignals.EndpointResponse
+	err = json.Unmarshal(body, &EndpointResponse)
+	if err != nil {
+		return parsesignals.EndpointResponse{}, http.StatusBadRequest, err
+	}
+	return EndpointResponse, http.StatusOK, nil
 }
 
 /////////////////////////////////////////////////////
