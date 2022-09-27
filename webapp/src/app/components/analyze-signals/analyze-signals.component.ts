@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SignalsService, ParsedSignals } from '../../services/signals.service';
+import { SignalsService, ParsedSignals, EndpointResponse } from '../../services/signals.service';
 import { IotCoreEndpointService } from '../../services/iot-core-endpoint.service';
 import { saveAs } from "file-saver";
 
@@ -13,6 +13,7 @@ export class AnalyzeSignalsComponent implements OnInit {
   @ViewChild('xlsx') xlsx: any;
   @ViewChild('json') json: any;
   parsedSignals!: ParsedSignals;
+  endpointResponse!: EndpointResponse;
   recordAmount!: number;
   millis!: number;
   token!: string;
@@ -58,13 +59,21 @@ export class AnalyzeSignalsComponent implements OnInit {
    onEndpResponseAdded() {
     const json = this.json.nativeElement.files[0];
     this.SignalsService.endpointResponse(json).subscribe((data) => {
-      //this.parsedSignals = data as ParsedSignals;
-      console.log(data);
+      this.endpointResponse = data as EndpointResponse;
+      //console.log(data);
     });
    }
 
    exportEndpointResponse() {
-    return saveAs(new Blob([JSON.stringify(this.parsedSignals, null, 2)], { type: 'JSON' }), 'EndpointResponse.json');
+    return saveAs(new Blob([JSON.stringify(this.endpointResponse, null, 2)], { type: 'JSON' }), 'EndpointResponse.json');
+  }
+
+  ////////ANALYZE DATA FUNCTIONS/////////////////////////////
+
+  analyzeData() {
+    this.SignalsService.analizeData().subscribe((data) => {
+      console.log(data);
+    });
   }
 
 

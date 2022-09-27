@@ -31,8 +31,18 @@ type Value struct {
 	Value     any    `json:"value"`
 }
 
+type AnalyzedData struct {
+	Issues []Issue `json:"issues"`
+}
+
+type Issue struct {
+	SignalId string `json:"signalId"`
+	Message  string `json:"message"`
+}
+
 var (
-	parsedSignals ParsedSignals
+	parsedSignals    ParsedSignals
+	endpointResponse EndpointResponse
 )
 
 func ParseExcelSignals() (ParsedSignals, error) {
@@ -71,12 +81,42 @@ func ParseExcelSignals() (ParsedSignals, error) {
 	return parsedSignals, nil
 }
 
-func CheckEndpointResponse(endpointResponse EndpointResponse) (EndpointResponse, error) {
+func CheckEndpointResponse(response EndpointResponse) (EndpointResponse, error) {
 
-	if endpointResponse.Signals == nil {
+	if response.Signals == nil {
 		fmt.Println("Something went wrong")
 		return EndpointResponse{}, errors.New("Something went wrong")
 	}
-
+	endpointResponse = response
 	return endpointResponse, nil
+}
+
+func AnalyzeData() AnalyzedData {
+
+	analyzedData := AnalyzedData{}
+
+	for i := 0; i < len(parsedSignals.SignalIds); i++ {
+
+		fmt.Println("outer loop started")
+
+		for j := 0; j < len(endpointResponse.Signals); j++ {
+
+			fmt.Println("inner loop started")
+
+			if parsedSignals.SignalIds[i] == endpointResponse.Signals[j].SignalId {
+				//do something
+				fmt.Println("Found Signal")
+				break
+			}
+			if j == len(endpointResponse.Signals)-1 {
+				issue := Issue{}
+				issue.SignalId = parsedSignals.SignalIds[i]
+				issue.Message = "signal not found"
+				analyzedData.Issues = append(analyzedData.Issues, issue)
+				fmt.Println("Didn't Found Signal")
+			}
+
+		}
+	}
+	return analyzedData
 }

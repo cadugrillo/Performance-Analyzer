@@ -47,14 +47,15 @@
             <!-- <button mat-raised-button color="primary"  [disabled]="parsedSignals==null" (click)="queryEndpoint()">Send</button> -->
             <button mat-raised-button color="primary" (click)="importEndpResponse()">Import JSON</button>
             <input type="file" #json accept=".json" style="display: none" (change)="onEndpResponseAdded()"/>
-            <button mat-raised-button color="primary" (click)="exportEndpointResponse()">Export JSON</button>
+            <button mat-raised-button color="primary" [disabled]="endpointResponse==null" (click)="exportEndpointResponse()">Export JSON</button>
+            <button mat-raised-button color="primary" [disabled]="endpointResponse==null || parsedSignals==null" (click)="analyzeData()">Analyze Data</button>
           </div>
           <mat-card class="inner-card">
             <mat-card-title-group>
             <mat-card-title></mat-card-title>
             <mat-card-subtitle></mat-card-subtitle>
             </mat-card-title-group>
-            <mat-card-content class="inner-card-text" *ngIf="parsedSignals" [innerText]="toString(parsedSignals)"></mat-card-content>
+            <mat-card-content class="inner-card-text" *ngIf="endpointResponse" [innerText]="toString(endpointResponse)"></mat-card-content>
           </mat-card>
         </mat-card-content>
         <mat-card-actions align="end"></mat-card-actions>

@@ -13,7 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-///////////////PARSE SIGNALS HANDLER/////////////////
+// /////////////PARSE SIGNALS HANDLER/////////////////
 func ParseSignalsHandler(c *gin.Context) {
 	statusCode, err := FileBodyToExcel(c.Request.Body)
 	if err != nil {
@@ -68,6 +68,11 @@ func JsonBodyToEndpointResponse(httpBody io.ReadCloser) (parsesignals.EndpointRe
 		return parsesignals.EndpointResponse{}, http.StatusBadRequest, err
 	}
 	return EndpointResponse, http.StatusOK, nil
+}
+
+// /////////////ANALYZE DATA HANDLER///////////////
+func GetAnalyzedDataHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, parsesignals.AnalyzeData())
 }
 
 /////////////////////////////////////////////////////
