@@ -1,4 +1,4 @@
-package parsesignals
+package analyze_signals
 
 import (
 	"errors"

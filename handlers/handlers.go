@@ -8,8 +8,7 @@ import (
 	"net/http"
 	"strconv"
 
-	parsesignals "performance-analyzer/modules/parse-signals"
-	xlsxsignals "performance-analyzer/modules/parse-signals"
+	analyze_signals "performance-analyzer/modules/analyze-signals"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,7 +20,7 @@ func ParseSignalsHandler(c *gin.Context) {
 		c.JSON(statusCode, err)
 		return
 	}
-	parsedSignals, err := xlsxsignals.ParseExcelSignals()
+	parsedSignals, err := analyze_signals.ParseExcelSignals()
 	if err != nil {
 		c.JSON(statusCode, err)
 		return
@@ -49,7 +48,7 @@ func EndpointResponseHandler(c *gin.Context) {
 		c.JSON(statusCode, err)
 		return
 	}
-	EndpointResponse, err := xlsxsignals.CheckEndpointResponse(Response)
+	EndpointResponse, err := analyze_signals.CheckEndpointResponse(Response)
 	if err != nil {
 		c.JSON(statusCode, err)
 		return
@@ -57,16 +56,16 @@ func EndpointResponseHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, EndpointResponse)
 }
 
-func JsonBodyToEndpointResponse(httpBody io.ReadCloser) (parsesignals.EndpointResponse, int, error) {
+func JsonBodyToEndpointResponse(httpBody io.ReadCloser) (analyze_signals.EndpointResponse, int, error) {
 	body, err := ioutil.ReadAll(httpBody)
 	if err != nil {
-		return parsesignals.EndpointResponse{}, http.StatusInternalServerError, err
+		return analyze_signals.EndpointResponse{}, http.StatusInternalServerError, err
 	}
 	defer httpBody.Close()
-	var EndpointResponse parsesignals.EndpointResponse
+	var EndpointResponse analyze_signals.EndpointResponse
 	err = json.Unmarshal(body, &EndpointResponse)
 	if err != nil {
-		return parsesignals.EndpointResponse{}, http.StatusBadRequest, err
+		return analyze_signals.EndpointResponse{}, http.StatusBadRequest, err
 	}
 	return EndpointResponse, http.StatusOK, nil
 }
@@ -75,7 +74,7 @@ func JsonBodyToEndpointResponse(httpBody io.ReadCloser) (parsesignals.EndpointRe
 func GetAnalyzedDataHandler(c *gin.Context) {
 	nrecString := c.Param("nrec")
 	nrec, _ := strconv.Atoi(nrecString)
-	c.JSON(http.StatusOK, parsesignals.AnalyzeData(nrec))
+	c.JSON(http.StatusOK, analyze_signals.AnalyzeData(nrec))
 }
 
 /////////////////////////////////////////////////////
