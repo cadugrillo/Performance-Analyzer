@@ -36,8 +36,8 @@ type AnalyzedData struct {
 }
 
 type Issue struct {
-	SignalId string `json:"signalId"`
-	Message  string `json:"message"`
+	SignalId string   `json:"signalId"`
+	Messages []string `json:"message"`
 }
 
 var (
@@ -91,9 +91,10 @@ func CheckEndpointResponse(response EndpointResponse) (EndpointResponse, error) 
 	return endpointResponse, nil
 }
 
-func AnalyzeData(nrec int) AnalyzedData {
+func AnalyzeData(nrec uint64) AnalyzedData {
 
 	analyzedData := AnalyzedData{}
+	fmt.Println(nrec)
 
 	for i := 0; i < len(parsedSignals.SignalIds); i++ {
 
@@ -105,22 +106,40 @@ func AnalyzeData(nrec int) AnalyzedData {
 
 				fmt.Println("Signal uuid: ", parsedSignals.SignalIds[i], " found")
 
-				if len(endpointResponse.Signals[j].Values) < nrec {
+				for k := 0; k < len(endpointResponse.Signals[j].Values); k++ {
 
-					issue := Issue{}
-					issue.SignalId = parsedSignals.SignalIds[i]
-					issue.Message = fmt.Sprintf("%d of %d Record(s) Missing!", nrec-len(endpointResponse.Signals[j].Values), nrec)
-					analyzedData.Issues = append(analyzedData.Issues, issue)
-					fmt.Println(issue.Message)
+					if k == len(endpointResponse.Signals[j].Values)-1 {
+						break
+					}
+
+					if endpointResponse.Signals[j].Values[k].Timestamp-endpointResponse.Signals[j].Values[k+1].Timestamp > nrec+500 {
+						issue := Issue{}
+						issue.SignalId = parsedSignals.SignalIds[i]
+						Message := fmt.Sprintf("Missing Record between timestamp: %d and timestamp: %d", endpointResponse.Signals[j].Values[k].Timestamp, endpointResponse.Signals[j].Values[k+1].Timestamp)
+						issue.Messages = append(issue.Messages, Message)
+						analyzedData.Issues = append(analyzedData.Issues, issue)
+						fmt.Println(Message)
+					}
 				}
+
+				// if len(endpointResponse.Signals[j].Values) < nrec {
+
+				// 	issue := Issue{}
+				// 	issue.SignalId = parsedSignals.SignalIds[i]
+				// 	Message := fmt.Sprintf("%d of %d Record(s) Missing!", nrec-len(endpointResponse.Signals[j].Values), nrec)
+				// 	issue.Messages = append(issue.Messages, Message)
+				// 	analyzedData.Issues = append(analyzedData.Issues, issue)
+				// 	fmt.Println(Message)
+				// }
 
 				break
 			}
-
+			fmt.Println(j)
 			if j == len(endpointResponse.Signals)-1 {
 				issue := Issue{}
 				issue.SignalId = parsedSignals.SignalIds[i]
-				issue.Message = "Signal not Found!"
+				Message := "Signal not Found!"
+				issue.Messages = append(issue.Messages, Message)
 				analyzedData.Issues = append(analyzedData.Issues, issue)
 				fmt.Println("Signal uuid: ", parsedSignals.SignalIds[i], " not found")
 			}
