@@ -91,29 +91,38 @@ func CheckEndpointResponse(response EndpointResponse) (EndpointResponse, error) 
 	return endpointResponse, nil
 }
 
-func AnalyzeData() AnalyzedData {
+func AnalyzeData(nrec int) AnalyzedData {
 
 	analyzedData := AnalyzedData{}
 
 	for i := 0; i < len(parsedSignals.SignalIds); i++ {
 
-		fmt.Println("outer loop started")
+		fmt.Println("Searching for Signal uuid: ", parsedSignals.SignalIds[i])
 
 		for j := 0; j < len(endpointResponse.Signals); j++ {
 
-			fmt.Println("inner loop started")
-
 			if parsedSignals.SignalIds[i] == endpointResponse.Signals[j].SignalId {
-				//do something
-				fmt.Println("Found Signal")
+
+				fmt.Println("Signal uuid: ", parsedSignals.SignalIds[i], " found")
+
+				if len(endpointResponse.Signals[j].Values) < nrec {
+
+					issue := Issue{}
+					issue.SignalId = parsedSignals.SignalIds[i]
+					issue.Message = fmt.Sprintf("%d of %d Record(s) Missing!", nrec-len(endpointResponse.Signals[j].Values), nrec)
+					analyzedData.Issues = append(analyzedData.Issues, issue)
+					fmt.Println(issue.Message)
+				}
+
 				break
 			}
+
 			if j == len(endpointResponse.Signals)-1 {
 				issue := Issue{}
 				issue.SignalId = parsedSignals.SignalIds[i]
-				issue.Message = "signal not found"
+				issue.Message = "Signal not Found!"
 				analyzedData.Issues = append(analyzedData.Issues, issue)
-				fmt.Println("Didn't Found Signal")
+				fmt.Println("Signal uuid: ", parsedSignals.SignalIds[i], " not found")
 			}
 
 		}

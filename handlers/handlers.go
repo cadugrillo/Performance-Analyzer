@@ -6,6 +6,7 @@ import (
 	"io/fs"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 
 	parsesignals "performance-analyzer/modules/parse-signals"
 	xlsxsignals "performance-analyzer/modules/parse-signals"
@@ -72,7 +73,9 @@ func JsonBodyToEndpointResponse(httpBody io.ReadCloser) (parsesignals.EndpointRe
 
 // /////////////ANALYZE DATA HANDLER///////////////
 func GetAnalyzedDataHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, parsesignals.AnalyzeData())
+	nrecString := c.Param("nrec")
+	nrec, _ := strconv.Atoi(nrecString)
+	c.JSON(http.StatusOK, parsesignals.AnalyzeData(nrec))
 }
 
 /////////////////////////////////////////////////////

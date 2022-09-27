@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SignalsService, ParsedSignals, EndpointResponse } from '../../services/signals.service';
+import { SignalsService, ParsedSignals, EndpointResponse, AnalyzedData } from '../../services/signals.service';
 import { IotCoreEndpointService } from '../../services/iot-core-endpoint.service';
+import { MessagePopupComponent } from '../message-popup/message-popup.component';
+import { WaitPopupComponent } from '../wait-popup/wait-popup.component';
+import { MatDialog } from '@angular/material/dialog';
 import { saveAs } from "file-saver";
 
 @Component({
@@ -14,12 +17,14 @@ export class AnalyzeSignalsComponent implements OnInit {
   @ViewChild('json') json: any;
   parsedSignals!: ParsedSignals;
   endpointResponse!: EndpointResponse;
+  analyzedData!: AnalyzedData;
   recordAmount!: number;
   millis!: number;
   token!: string;
 
   constructor(private SignalsService: SignalsService,
-              private IotCoreEndpointService: IotCoreEndpointService) { }
+              private IotCoreEndpointService: IotCoreEndpointService,
+              public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -30,7 +35,7 @@ export class AnalyzeSignalsComponent implements OnInit {
     return JSON.stringify(parsedSignals, null, 4);
   }
 
-
+  
   ///////PARSE SIGNALS FUNCTIONS/////////////////////////////
 
   importSigToParse() {
@@ -38,10 +43,11 @@ export class AnalyzeSignalsComponent implements OnInit {
    }
   
    onSigToParseAdded() {
+    this.dialog.open(WaitPopupComponent, {});
     const xlsx = this.xlsx.nativeElement.files[0];
     this.SignalsService.parseSignals(xlsx).subscribe((data) => {
       this.parsedSignals = data as ParsedSignals;
-      //console.log(this.parsedSignals);
+      this.dialog.closeAll();
     });
    }
 
@@ -57,10 +63,11 @@ export class AnalyzeSignalsComponent implements OnInit {
    }
   
    onEndpResponseAdded() {
+    this.dialog.open(WaitPopupComponent, {});
     const json = this.json.nativeElement.files[0];
     this.SignalsService.endpointResponse(json).subscribe((data) => {
       this.endpointResponse = data as EndpointResponse;
-      //console.log(data);
+      this.dialog.closeAll();
     });
    }
 
@@ -70,10 +77,17 @@ export class AnalyzeSignalsComponent implements OnInit {
 
   ////////ANALYZE DATA FUNCTIONS/////////////////////////////
 
-  analyzeData() {
-    this.SignalsService.analizeData().subscribe((data) => {
-      console.log(data);
+  analyzeData(nrec: number) {
+    this.dialog.open(WaitPopupComponent, {});
+    this.SignalsService.analizeData(nrec).subscribe((data) => {
+      this.analyzedData = data as AnalyzedData;
+      this.dialog.closeAll();
+      this.dialog.open(MessagePopupComponent, {data: {title: "Analysis Finished", text: "Check Results Tab!"}});
     });
+  }
+
+  exportAnalyzedData() {
+    return saveAs(new Blob([JSON.stringify(this.analyzedData, null, 2)], { type: 'JSON' }), 'AnalyzedData.json');
   }
 
 

@@ -11,9 +11,9 @@
         </mat-card-title-group>
         <mat-card-content>
           <div class="parse-button-row">
-            <button mat-raised-button color="primary" (click)="importSigToParse()">Import XLSX</button>
+            <button class="parse-button" mat-raised-button color="primary" (click)="importSigToParse()">Import XLSX</button>
             <input type="file" #xlsx accept=".xlsx" style="display: none" (change)="onSigToParseAdded()"/>
-            <button mat-raised-button color="primary"  [disabled]="parsedSignals==null" (click)="exportParsedSignals()">Export JSON</button>
+            <button mat-raised-button [disabled]="parsedSignals==null" (click)="exportParsedSignals()">Export JSON</button>
           </div>
           <mat-card class="inner-card">
             <mat-card-title-group>
@@ -27,14 +27,14 @@
       </mat-card>
       <mat-card class="query-card">
         <mat-card-title-group>
-          <mat-card-title>Query Endpoint</mat-card-title>
+          <mat-card-title>Bulk Endpoint Response</mat-card-title>
           <mat-card-subtitle></mat-card-subtitle>
         </mat-card-title-group>
         <mat-card-content>
           <div class="query-button-row">
-            <mat-form-field class="mat-input-small" appearance="standard">
-              <mat-label>Amount</mat-label>
-              <input  matInput autocomplete="off" placeholder="10, 100, etc." [(ngModel)]="recordAmount">
+            <mat-form-field class="mat-input-medium" appearance="standard">
+              <mat-label>Amount of Records</mat-label>
+              <input  matInput type="number" min="0" autocomplete="off" placeholder="10, 100, etc." [(ngModel)]="recordAmount">
             </mat-form-field>
             <!-- <mat-form-field class="mat-input-medium" appearance="standard">
               <mat-label>Millis</mat-label>
@@ -47,8 +47,8 @@
             <!-- <button mat-raised-button color="primary"  [disabled]="parsedSignals==null" (click)="queryEndpoint()">Send</button> -->
             <button mat-raised-button color="primary" (click)="importEndpResponse()">Import JSON</button>
             <input type="file" #json accept=".json" style="display: none" (change)="onEndpResponseAdded()"/>
-            <button mat-raised-button color="primary" [disabled]="endpointResponse==null" (click)="exportEndpointResponse()">Export JSON</button>
-            <button mat-raised-button color="primary" [disabled]="endpointResponse==null || parsedSignals==null" (click)="analyzeData()">Analyze Data</button>
+            <button mat-raised-button [disabled]="endpointResponse==null" (click)="exportEndpointResponse()">Export JSON</button>
+            <button mat-raised-button color="warn" [disabled]="endpointResponse==null || parsedSignals==null || recordAmount<1 || recordAmount==null" (click)="analyzeData(recordAmount)">Analyze Data</button>
           </div>
           <mat-card class="inner-card">
             <mat-card-title-group>
@@ -63,6 +63,24 @@
     </div>
   </mat-tab>
   <mat-tab label="Results">
-    <p>Placeholder for results</p>
+    <mat-card class="results-card">
+      <mat-card-title-group>
+        <mat-card-title>Results</mat-card-title>
+        <mat-card-subtitle></mat-card-subtitle>
+      </mat-card-title-group>
+      <mat-card-content>
+        <div class="parse-button-row">
+          <button mat-raised-button [disabled]="analyzedData==null" (click)="exportAnalyzedData()">Export JSON</button>
+        </div>
+        <mat-card class="inner-result-card">
+          <mat-card-title-group>
+          <mat-card-title></mat-card-title>
+          <mat-card-subtitle></mat-card-subtitle>
+          </mat-card-title-group>
+          <mat-card-content class="inner-card-text" *ngIf="analyzedData" [innerText]="toString(analyzedData)"></mat-card-content>
+        </mat-card>
+      </mat-card-content>
+      <mat-card-actions align="end"></mat-card-actions>
+    </mat-card>
   </mat-tab>
 </mat-tab-group>

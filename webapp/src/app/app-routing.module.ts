@@ -5,7 +5,6 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { AuthGuardService } from './services/auth-guard.service';
-import { MqttClientComponent } from './components/mqtt-client/mqtt-client.component';
 import { AnalyzeSignalsComponent } from './components/analyze-signals/analyze-signals.component';
 
 const routes: Routes = [
@@ -15,7 +14,6 @@ const routes: Routes = [
   { path: 'signUp',component: SignUpComponent},
   { path: 'profile',component: ProfileComponent, canActivate: [AuthGuardService]},
   { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
-  { path: 'mqtt-client', component: MqttClientComponent,canActivate: [AuthGuardService] },
   { path: 'analyze-signals', component: AnalyzeSignalsComponent,canActivate: [AuthGuardService] },
   { path: '**', redirectTo: 'signIn'},
  

@@ -17,8 +17,8 @@ export class SignalsService {
     return this.httpClient.post(environment.gateway + '/performance-analyzer/signals/endresponse', file);
   }
 
-  analizeData() {
-    return this.httpClient.get(environment.gateway + '/performance-analyzer/signals/analyzedata')
+  analizeData(nrec: number) {
+    return this.httpClient.get(environment.gateway + '/performance-analyzer/signals/analyzedata/'+nrec)
   }
 }
 
@@ -44,4 +44,13 @@ class Signal {
 class Value {
   timestamp!: EpochTimeStamp
   value!: any
+}
+
+export class AnalyzedData {
+  issues!: Issue[]
+}
+
+class Issue {
+  signalId!: string
+  message!: string
 }

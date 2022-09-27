@@ -4,14 +4,6 @@
     margin-top: 64px;
 }
 
-section {
-  display: table;
-  margin-top: 148px;
-  margin-left: 20px;
-  margin-bottom: 20px;
-  position: absolute;
-}
-
 .tab-group {
   margin-top: 148px;
   margin-left: 20px;
@@ -23,11 +15,6 @@ section {
   width: 100%;
   display: inline-grid;
   grid-template-columns: 30% 70%;
-}
-
-.example-button-row {
-  display: table-cell;
-  width: 900px;
 }
 
 .parse-button-row {
@@ -44,6 +31,11 @@ section {
 
 button {
   margin-right: 30px;
+}
+
+.parse-button {
+  margin-top: 20px;
+  margin-bottom: 15px;
 }
 
 .example-button-row .mat-button-base {
@@ -65,11 +57,6 @@ button {
   margin-right: 20px;
 }
 
-.mat-filter {
-  font-size: 14px;
-  width: 100%;
-}
-
   .parse-card {
     margin-top: 20px;
     margin-right: 20px;
@@ -83,7 +70,16 @@ button {
     margin-top: 20px;
     margin-right: 20px;
     max-height: 1600px;
-    width: 90%;
+    width: 95%;
+    background-color: rgb(245, 245, 248);
+    overflow: hidden;
+  }
+
+  .results-card {
+    margin-top: 20px;
+    margin-right: 20px;
+    max-height: 1600px;
+    width: 96%;
     background-color: rgb(245, 245, 248);
     overflow: hidden;
   }
@@ -92,6 +88,14 @@ button {
     margin-top: 20px;
     max-height: 600px;
     width: 91%;
+    background-color: rgb(255, 255, 255);
+    overflow: auto;
+  }
+
+  .inner-result-card {
+    margin-top: 20px;
+    max-height: 600px;
+    width: 98%;
     background-color: rgb(255, 255, 255);
     overflow: auto;
   }
