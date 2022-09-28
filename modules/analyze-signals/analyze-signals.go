@@ -124,7 +124,7 @@ func AnalyzeData(TsInterval uint64) AnalyzedData {
 
 				break
 			}
-			fmt.Println(j)
+
 			if j == len(endpointResponse.Signals)-1 {
 				issue := Issue{}
 				issue.SignalId = parsedSignals.SignalIds[i]
