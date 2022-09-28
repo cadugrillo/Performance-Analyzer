@@ -2,14 +2,14 @@ version: "3.7"
 
 services:
   perf-analyzer-webapp:
-    image: cadugrillo/perf-analyzer-webapp:1.0
+    image: cadugrillo/perf-analyzer-webapp:1.1
     container_name: perf-analyzer-webapp
     restart: always
     ports:
       - 80:80
 
   perf-analyzer-api:
-    image: cadugrillo/perf-analyzer-api:1.0
+    image: cadugrillo/perf-analyzer-api:1.1
     container_name: perf-analyzer-api
     restart: always
   
