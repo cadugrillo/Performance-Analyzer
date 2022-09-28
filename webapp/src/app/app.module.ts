@@ -1,3 +1,5 @@
+import { IMqttServiceOptions, MqttModule } from "ngx-mqtt";
+import { environment as env } from '../environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -34,6 +36,18 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { SignalsService } from "./services/signals.service";
 import { AnalyzeSignalsComponent } from './components/analyze-signals/analyze-signals.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { MqttClientComponent } from './components/mqtt-client/mqtt-client.component';
+import { MqttClientService } from "./services/mqttClient.service";
+
+const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
+  hostname: env.mqtt.server,
+  port: env.mqtt.port,
+  protocol: (env.mqtt.protocol === "wss") ? "wss" : "ws",
+  queueQoSZero: false,
+  path: '',
+  username: env.mqtt.username,
+  password: env.mqtt.password
+};
 
 
 @NgModule({
@@ -46,9 +60,11 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
     MessagePopupComponent,
     WaitPopupComponent,
     AnalyzeSignalsComponent,
+    MqttClientComponent,
     ForgotPasswordComponent
   ],
   imports: [
+    MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
     AppRoutingModule,
     BrowserModule,
     FormsModule,
@@ -72,7 +88,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
     BrowserAnimationsModule,
     MatTooltipModule
   ],
-  providers: [SignalsService, {
+  providers: [SignalsService, MqttClientService, {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
     multi: true

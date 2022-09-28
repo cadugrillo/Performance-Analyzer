@@ -37,7 +37,7 @@ type AnalyzedData struct {
 
 type Issue struct {
 	SignalId string   `json:"signalId"`
-	Messages []string `json:"message"`
+	Messages []string `json:"messages"`
 }
 
 var (
@@ -94,9 +94,12 @@ func CheckEndpointResponse(response EndpointResponse) (EndpointResponse, error) 
 func AnalyzeData(TsInterval uint64) AnalyzedData {
 
 	analyzedData := AnalyzedData{}
-	fmt.Println(TsInterval)
+	errorFlag := false
+	issue := Issue{}
 
 	for i := 0; i < len(parsedSignals.SignalIds); i++ {
+
+		issue.SignalId = parsedSignals.SignalIds[i]
 
 		fmt.Println("Searching for Signal uuid: ", parsedSignals.SignalIds[i])
 
@@ -113,11 +116,9 @@ func AnalyzeData(TsInterval uint64) AnalyzedData {
 					}
 
 					if endpointResponse.Signals[j].Values[k].Timestamp-endpointResponse.Signals[j].Values[k+1].Timestamp > TsInterval+500 {
-						issue := Issue{}
-						issue.SignalId = parsedSignals.SignalIds[i]
+						errorFlag = true
 						Message := fmt.Sprintf("Missing Record between timestamp: %d and timestamp: %d", endpointResponse.Signals[j].Values[k].Timestamp, endpointResponse.Signals[j].Values[k+1].Timestamp)
 						issue.Messages = append(issue.Messages, Message)
-						analyzedData.Issues = append(analyzedData.Issues, issue)
 						fmt.Println(Message)
 					}
 				}
@@ -126,14 +127,17 @@ func AnalyzeData(TsInterval uint64) AnalyzedData {
 			}
 
 			if j == len(endpointResponse.Signals)-1 {
-				issue := Issue{}
-				issue.SignalId = parsedSignals.SignalIds[i]
+				errorFlag = true
 				Message := "Signal not Found!"
 				issue.Messages = append(issue.Messages, Message)
-				analyzedData.Issues = append(analyzedData.Issues, issue)
 				fmt.Println("Signal uuid: ", parsedSignals.SignalIds[i], " not found")
 			}
 
+		}
+		if errorFlag {
+			analyzedData.Issues = append(analyzedData.Issues, issue)
+			issue = Issue{}
+			errorFlag = false
 		}
 	}
 	return analyzedData

@@ -1,0 +1,70 @@
+<mat-toolbar class="app-toolbar">
+    <span>CG-EDGE - IOT Core -  Test Client</span>
+  </mat-toolbar>
+  <section>
+    <div class="example-button-row">
+      <mat-form-field class="mat-input" appearance="standard">
+        <mat-label>Topic to Subscribe</mat-label>
+        <input  matInput autocomplete="off" placeholder="mydevice/mytopic" [disabled]="running" [(ngModel)]="topic">
+      </mat-form-field>
+      <button mat-raised-button color="primary" [disabled]="running" (click)="subscribeToTopic(topic)">Start</button>
+      <button mat-raised-button color="primary" [disabled]="!running" (click)="unsubscribeTopic()">Stop</button>
+      <button mat-raised-button color="primary" (click)="clearData()">Clear</button>
+      <button mat-raised-button color="primary" [disabled]="running" (click)="exportMessages()">Export Messages</button>
+    </div>
+</section>
+<div class="table-wrapper">
+  <mat-form-field class="mat-filter" appearance="standard">
+    <mat-label>Topic Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. mytopic" #input>
+  </mat-form-field>
+  <div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+  <ng-container matColumnDef="Topic">
+    <th mat-header-cell *matHeaderCellDef> Topic </th>
+    <td mat-cell *matCellDef="let element"> {{element.topic}} </td>
+  </ng-container>
+  <ng-container matColumnDef="Timestamp">
+    <th mat-header-cell *matHeaderCellDef> Timestamp </th>
+    <td mat-cell *matCellDef="let element; let i= dataIndex"> {{recTS[i]}} </td>
+  </ng-container>
+  <ng-container matColumnDef="expand">
+    <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
+        <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+        <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+      <div class="example-element-detail"
+           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <div class="example-element-description" [innerText]="toString(element.payload)"></div>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+  <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;"
+      class="example-element-row"
+      [class.example-expanded-row]="expandedElement === element"
+      (click)="expandedElement = expandedElement === element ? null : element">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+
+  <!-- Row shown when there is no matching data. -->
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+  </tr>
+
+</table>
+<mat-paginator [pageSizeOptions]="[10, 50, 100]"
+                    showFirstLastButtons 
+                    aria-label="Select page of messages">
+</mat-paginator>
+</div>
+</div>

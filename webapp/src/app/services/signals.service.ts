@@ -52,5 +52,5 @@ export class AnalyzedData {
 
 class Issue {
   signalId!: string
-  message!: string[]
+  messages!: string[]
 }
