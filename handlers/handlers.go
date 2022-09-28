@@ -72,9 +72,9 @@ func JsonBodyToEndpointResponse(httpBody io.ReadCloser) (analyze_signals.Endpoin
 
 // /////////////ANALYZE DATA HANDLER///////////////
 func GetAnalyzedDataHandler(c *gin.Context) {
-	nrecString := c.Param("nrec")
-	nrec, _ := strconv.ParseUint(nrecString, 10, 64)
-	c.JSON(http.StatusOK, analyze_signals.AnalyzeData(nrec))
+	TsIntervalString := c.Param("TsInterval")
+	TsInterval, _ := strconv.ParseUint(TsIntervalString, 10, 64)
+	c.JSON(http.StatusOK, analyze_signals.AnalyzeData(TsInterval))
 }
 
 /////////////////////////////////////////////////////

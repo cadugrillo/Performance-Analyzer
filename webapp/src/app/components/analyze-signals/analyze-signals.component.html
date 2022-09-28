@@ -33,8 +33,8 @@
         <mat-card-content>
           <div class="query-button-row">
             <mat-form-field class="mat-input-medium" appearance="standard">
-              <mat-label>Amount of Records</mat-label>
-              <input  matInput type="number" min="0" autocomplete="off" placeholder="10, 100, etc." [(ngModel)]="recordAmount">
+              <mat-label>TS Interval (ms)</mat-label>
+              <input  matInput type="number" min="1000" autocomplete="off" placeholder="1000ms" [(ngModel)]="TsInterval" matTooltip="Interval between two records (ms)">
             </mat-form-field>
             <!-- <mat-form-field class="mat-input-medium" appearance="standard">
               <mat-label>Millis</mat-label>
@@ -48,7 +48,7 @@
             <button mat-raised-button color="primary" (click)="importEndpResponse()">Import JSON</button>
             <input type="file" #json accept=".json" style="display: none" (change)="onEndpResponseAdded()"/>
             <button mat-raised-button [disabled]="endpointResponse==null" (click)="exportEndpointResponse()">Export JSON</button>
-            <button mat-raised-button color="warn" [disabled]="endpointResponse==null || parsedSignals==null || recordAmount<1 || recordAmount==null" (click)="analyzeData(recordAmount)">Analyze Data</button>
+            <button mat-raised-button color="warn" [disabled]="endpointResponse==null || parsedSignals==null || TsInterval<1000 || TsInterval==null" (click)="analyzeData(TsInterval)">Analyze Data</button>
           </div>
           <mat-card class="inner-card">
             <mat-card-title-group>

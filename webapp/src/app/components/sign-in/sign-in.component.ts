@@ -33,6 +33,7 @@ export class SignInComponent {
       }).catch(() => {
         this.loading = false;
         this.dialog.closeAll();
+        this.dialog.open(MessagePopupComponent, {data: {title: "Error", text: "Wrong email and/or password!"}});
       });
 
     } else this.dialog.open(MessagePopupComponent, {data: {title: "Error", text: "Empty email or password!"}});
@@ -40,6 +41,10 @@ export class SignInComponent {
 
   goToSignUp() {
     this.router.navigate(['/signUp']);
+  }
+
+  goToforgotPassword() {
+    this.router.navigate(['/forgotPassword']);
   }
   
 }

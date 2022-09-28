@@ -18,7 +18,7 @@ export class AnalyzeSignalsComponent implements OnInit {
   parsedSignals!: ParsedSignals;
   endpointResponse!: EndpointResponse;
   analyzedData!: AnalyzedData;
-  recordAmount!: number;
+  TsInterval!: number;
   millis!: number;
   token!: string;
 
@@ -94,7 +94,7 @@ export class AnalyzeSignalsComponent implements OnInit {
   ///////QUERY ENDPOINT FUNCTIONS/////////////////////////////
 
   queryEndpoint() {
-    this.IotCoreEndpointService.getBulkSignals(this.recordAmount, this.millis, this.token, this.parsedSignals).subscribe((data) => {
+    this.IotCoreEndpointService.getBulkSignals(this.TsInterval, this.millis, this.token, this.parsedSignals).subscribe((data) => {
       console.log(data);
     });
   }

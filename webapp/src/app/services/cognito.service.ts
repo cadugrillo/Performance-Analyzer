@@ -90,4 +90,12 @@ export class CognitoService {
     });
   }
 
+  public fogotPassword(user: IUser): Promise<any> {
+    return Auth.forgotPassword(user.email);
+  }
+
+  public confirmNewPassword(user: IUser): Promise<any> {
+    return Auth.forgotPasswordSubmit(user.email, user.code, user.password);
+  }
+
 }

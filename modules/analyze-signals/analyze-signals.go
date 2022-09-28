@@ -91,10 +91,10 @@ func CheckEndpointResponse(response EndpointResponse) (EndpointResponse, error) 
 	return endpointResponse, nil
 }
 
-func AnalyzeData(nrec uint64) AnalyzedData {
+func AnalyzeData(TsInterval uint64) AnalyzedData {
 
 	analyzedData := AnalyzedData{}
-	fmt.Println(nrec)
+	fmt.Println(TsInterval)
 
 	for i := 0; i < len(parsedSignals.SignalIds); i++ {
 
@@ -112,7 +112,7 @@ func AnalyzeData(nrec uint64) AnalyzedData {
 						break
 					}
 
-					if endpointResponse.Signals[j].Values[k].Timestamp-endpointResponse.Signals[j].Values[k+1].Timestamp > nrec+500 {
+					if endpointResponse.Signals[j].Values[k].Timestamp-endpointResponse.Signals[j].Values[k+1].Timestamp > TsInterval+500 {
 						issue := Issue{}
 						issue.SignalId = parsedSignals.SignalIds[i]
 						Message := fmt.Sprintf("Missing Record between timestamp: %d and timestamp: %d", endpointResponse.Signals[j].Values[k].Timestamp, endpointResponse.Signals[j].Values[k+1].Timestamp)
@@ -121,16 +121,6 @@ func AnalyzeData(nrec uint64) AnalyzedData {
 						fmt.Println(Message)
 					}
 				}
-
-				// if len(endpointResponse.Signals[j].Values) < nrec {
-
-				// 	issue := Issue{}
-				// 	issue.SignalId = parsedSignals.SignalIds[i]
-				// 	Message := fmt.Sprintf("%d of %d Record(s) Missing!", nrec-len(endpointResponse.Signals[j].Values), nrec)
-				// 	issue.Messages = append(issue.Messages, Message)
-				// 	analyzedData.Issues = append(analyzedData.Issues, issue)
-				// 	fmt.Println(Message)
-				// }
 
 				break
 			}

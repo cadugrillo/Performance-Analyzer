@@ -33,6 +33,7 @@ import { TokenInterceptor } from './token.interceptor';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SignalsService } from "./services/signals.service";
 import { AnalyzeSignalsComponent } from './components/analyze-signals/analyze-signals.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { AnalyzeSignalsComponent } from './components/analyze-signals/analyze-si
     SignUpComponent,
     MessagePopupComponent,
     WaitPopupComponent,
-    AnalyzeSignalsComponent
+    AnalyzeSignalsComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     AppRoutingModule,
