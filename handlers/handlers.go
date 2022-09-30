@@ -73,7 +73,7 @@ func JsonBodyToEndpointResponse(httpBody io.ReadCloser) (analyze_signals.Endpoin
 // /////////////ANALYZE DATA HANDLER///////////////
 func GetAnalyzedDataHandler(c *gin.Context) {
 	TsIntervalString := c.Param("TsInterval")
-	TsInterval, _ := strconv.ParseUint(TsIntervalString, 10, 64)
+	TsInterval, _ := strconv.ParseInt(TsIntervalString, 10, 64)
 	c.JSON(http.StatusOK, analyze_signals.AnalyzeData(TsInterval))
 }
 
