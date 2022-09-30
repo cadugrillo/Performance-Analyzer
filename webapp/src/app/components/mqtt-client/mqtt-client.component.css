@@ -14,7 +14,7 @@ section {
 
 .example-button-row {
   display: table-cell;
-  width: 900px;
+  width: 1600px;
 }
 
 .example-button-row .mat-button-base {
@@ -23,6 +23,11 @@ section {
 
 .mat-input {
   width: 400px;
+  margin-right: 20px;
+}
+
+.mat-input-small {
+  width: 120px;
   margin-right: 20px;
 }
 

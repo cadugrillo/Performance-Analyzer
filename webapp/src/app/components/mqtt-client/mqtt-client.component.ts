@@ -27,6 +27,7 @@ export class MqttClientComponent implements OnInit, OnDestroy {
   recTS: string[] = [];
   subscription!: Subscription;
   topic: string = '';
+  maxCapturedMessages = 5000;
   running: boolean = false;
   dataSource!: MatTableDataSource<IMqttMessage>;
   exportedData: ExportedData[] = [];
@@ -57,17 +58,20 @@ export class MqttClientComponent implements OnInit, OnDestroy {
 }
 
   subscribeToTopic(topic: string) {
-    if (this.topic != '') {
+    if (this.topic != '' && this.maxCapturedMessages >= 1 && this.maxCapturedMessages <= 5000) {
       this.running = true;
       this.subscription = this.mqttClientService.topic(topic).subscribe((data: IMqttMessage) => {
-        //console.log('Initial time:'+this.getTimestamp());
+        //console.log('Initial time:'+this.getTimestamp("display"));
         this.messages.push(data);
         this.recTS.push(this.getTimestamp("display"));
         this.dataSource = new MatTableDataSource(this.messages);
         this.dataSource.paginator = this.paginator;
-        //console.log('Final time:'+this.getTimestamp());
+        if (this.messages.length >= this.maxCapturedMessages) {
+          this.unsubscribeTopic();
+        }
+        //console.log('Final time:'+this.getTimestamp("display"));
       });
-    } else this.dialog.open(MessagePopupComponent, {data: {title: "Error", text: "Topic field cannot be empty!"}});
+    } else this.dialog.open(MessagePopupComponent, {data: {title: "Error", text: "Topic field cannot be empty and/or number of captured messages should be between 1 and 5000!"}});
   }
 
   unsubscribeTopic() {

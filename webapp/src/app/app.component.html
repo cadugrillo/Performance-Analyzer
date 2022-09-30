@@ -4,7 +4,7 @@
   <button mat-icon-button class="example-icon" *ngIf="isAuthenticated" routerLink="home">Home</button>
   <button mat-icon-button class="example-icon" *ngIf="!isAuthenticated" routerLink="signIn">Sign in</button>
   <button mat-icon-button class="example-icon" *ngIf="!isAuthenticated" routerLink="signUp">Sign up</button>
-  <button mat-icon-button class="example-icon" *ngIf="isAuthenticated" routerLink="profile">Profile</button>
+  <!-- <button mat-icon-button class="example-icon" *ngIf="isAuthenticated" routerLink="profile">Profile</button> -->
   <button mat-icon-button class="example-icon" (click)="signOut()" *ngIf="isAuthenticated" routerLink="">Sign out</button>
 </mat-toolbar>
 <router-outlet></router-outlet>

@@ -27,7 +27,7 @@
       </mat-card>
       <mat-card class="query-card">
         <mat-card-title-group>
-          <mat-card-title>Bulk Endpoint Response</mat-card-title>
+          <mat-card-title>Bulk Endpoint Response (/v3/signals/bulk/"amount"/"millis")</mat-card-title>
           <mat-card-subtitle></mat-card-subtitle>
         </mat-card-title-group>
         <mat-card-content>
@@ -36,15 +36,6 @@
               <mat-label>TS Interval (ms)</mat-label>
               <input  matInput type="number" min="1000" autocomplete="off" placeholder="1000ms" [(ngModel)]="TsInterval" matTooltip="Interval between two records (ms)">
             </mat-form-field>
-            <!-- <mat-form-field class="mat-input-medium" appearance="standard">
-              <mat-label>Millis</mat-label>
-              <input  matInput autocomplete="off" placeholder="1664078400000" [(ngModel)]="millis">
-            </mat-form-field>
-            <mat-form-field class="mat-input-large" appearance="standard">
-              <mat-label>Token</mat-label>
-              <input  matInput autocomplete="off" placeholder="eyJhbGciOiJSUzI1..." [(ngModel)]="token">
-            </mat-form-field> -->
-            <!-- <button mat-raised-button color="primary"  [disabled]="parsedSignals==null" (click)="queryEndpoint()">Send</button> -->
             <button mat-raised-button color="primary" (click)="importEndpResponse()">Import JSON</button>
             <input type="file" #json accept=".json" style="display: none" (change)="onEndpResponseAdded()"/>
             <button mat-raised-button [disabled]="endpointResponse==null" (click)="exportEndpointResponse()">Export JSON</button>

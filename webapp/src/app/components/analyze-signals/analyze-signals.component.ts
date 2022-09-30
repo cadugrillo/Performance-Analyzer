@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SignalsService, ParsedSignals, EndpointResponse, AnalyzedData } from '../../services/signals.service';
-import { IotCoreEndpointService } from '../../services/iot-core-endpoint.service';
 import { MessagePopupComponent } from '../message-popup/message-popup.component';
 import { WaitPopupComponent } from '../wait-popup/wait-popup.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -23,7 +22,6 @@ export class AnalyzeSignalsComponent implements OnInit {
   token!: string;
 
   constructor(private SignalsService: SignalsService,
-              private IotCoreEndpointService: IotCoreEndpointService,
               public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -89,16 +87,4 @@ export class AnalyzeSignalsComponent implements OnInit {
   exportAnalyzedData() {
     return saveAs(new Blob([JSON.stringify(this.analyzedData, null, 2)], { type: 'JSON' }), 'AnalyzedData.json');
   }
-
-
-  ///////QUERY ENDPOINT FUNCTIONS/////////////////////////////
-
-  queryEndpoint() {
-    this.IotCoreEndpointService.getBulkSignals(this.TsInterval, this.millis, this.token, this.parsedSignals).subscribe((data) => {
-      console.log(data);
-    });
-  }
-
-
-
 }

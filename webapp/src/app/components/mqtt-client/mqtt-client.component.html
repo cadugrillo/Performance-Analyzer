@@ -7,10 +7,15 @@
         <mat-label>Topic to Subscribe</mat-label>
         <input  matInput autocomplete="off" placeholder="mydevice/mytopic" [disabled]="running" [(ngModel)]="topic">
       </mat-form-field>
+      <mat-form-field class="mat-input-small" appearance="standard">
+        <mat-label>Messages to Capture</mat-label>
+        <input  matInput type="number" min="1" max="5000" autocomplete="off" placeholder="1000" [disabled]="running" [(ngModel)]="maxCapturedMessages">
+      </mat-form-field>
       <button mat-raised-button color="primary" [disabled]="running" (click)="subscribeToTopic(topic)">Start</button>
       <button mat-raised-button color="primary" [disabled]="!running" (click)="unsubscribeTopic()">Stop</button>
       <button mat-raised-button color="primary" (click)="clearData()">Clear</button>
       <button mat-raised-button color="primary" [disabled]="running" (click)="exportMessages()">Export Messages</button>
+      <span> (Point your MQTT Publisher to: apps.cadugrillo.com, port 1884)</span>
     </div>
 </section>
 <div class="table-wrapper">
