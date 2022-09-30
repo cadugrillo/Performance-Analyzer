@@ -22,6 +22,9 @@ export class AppComponent {
     this.cognitoService.isAuthenticated()
     .then((success: boolean) => {
       this.isAuthenticated = success;
+      if (this.isAuthenticated) {
+        this.router.navigate(['/home']);
+      }
     });
   }
 
