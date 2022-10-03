@@ -3,6 +3,7 @@ package analyze_signals
 import (
 	"errors"
 	"fmt"
+	"time"
 
 	"github.com/xuri/excelize/v2"
 )
@@ -27,8 +28,8 @@ type Signal struct {
 }
 
 type Value struct {
-	Timestamp uint64 `json:"timestamp"`
-	Value     any    `json:"value"`
+	Timestamp int64 `json:"timestamp"`
+	Value     any   `json:"value"`
 }
 
 type AnalyzedData struct {
@@ -91,7 +92,7 @@ func CheckEndpointResponse(response EndpointResponse) (EndpointResponse, error) 
 	return endpointResponse, nil
 }
 
-func AnalyzeData(TsInterval uint64) AnalyzedData {
+func AnalyzeData(TsInterval int64) AnalyzedData {
 
 	analyzedData := AnalyzedData{}
 	errorFlag := false
@@ -117,7 +118,7 @@ func AnalyzeData(TsInterval uint64) AnalyzedData {
 
 					if endpointResponse.Signals[j].Values[k].Timestamp-endpointResponse.Signals[j].Values[k+1].Timestamp > TsInterval+500 {
 						errorFlag = true
-						Message := fmt.Sprintf("Missing Record between timestamp: %d and timestamp: %d", endpointResponse.Signals[j].Values[k].Timestamp, endpointResponse.Signals[j].Values[k+1].Timestamp)
+						Message := fmt.Sprintf("Missing Record between timestamp: %s and timestamp: %s", time.UnixMilli(endpointResponse.Signals[j].Values[k].Timestamp).UTC(), time.UnixMilli(endpointResponse.Signals[j].Values[k+1].Timestamp).UTC())
 						issue.Messages = append(issue.Messages, Message)
 						fmt.Println(Message)
 					}

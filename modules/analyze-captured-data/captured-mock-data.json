@@ -1,0 +1,113 @@
+[
+    {
+      "topic": "iecloudconnector/timeseries_json_generic",
+      "payload": {
+        "clientID": "VM01TEST",
+        "topic": "ie/d/j/simatic/v1/s7c1/dp/r/S71512/default",
+        "protocol": "mqtt",
+        "payload": {
+          "seq": 100,
+          "vals": [
+            {
+              "id": "101",
+              "qc": 3,
+              "ts": "2022-09-30T19:21:15.101Z",
+              "val": 0,
+              "dataType": "Bool",
+              "name": "PerforBoolDB.BOOL_1"
+            },
+            {
+              "id": "102",
+              "qc": 3,
+              "ts": "2022-09-30T19:21:15.102Z",
+              "val": 0,
+              "dataType": "Bool",
+              "name": "PerforBoolDB.BOOL_2"
+            },
+            {
+              "id": "103",
+              "qc": 3,
+              "ts": "2022-09-30T19:21:15.103Z",
+              "val": 0,
+              "dataType": "Bool",
+              "name": "PerforBoolDB.BOOL_3"
+            }
+          ]
+        }
+      }
+    },
+    {
+        "topic": "iecloudconnector/timeseries_json_generic",
+        "payload": {
+          "clientID": "VM01TEST",
+          "topic": "ie/d/j/simatic/v1/s7c1/dp/r/S71512/default",
+          "protocol": "mqtt",
+          "payload": {
+            "seq": 101,
+            "vals": [
+              {
+                "id": "101",
+                "qc": 3,
+                "ts": "2022-09-30T19:21:17.101Z",
+                "val": 0,
+                "dataType": "Bool",
+                "name": "PerforBoolDB.BOOL_1"
+              },
+              {
+                "id": "102",
+                "qc": 3,
+                "ts": "2022-09-30T19:21:16.102Z",
+                "val": 0,
+                "dataType": "Bool",
+                "name": "PerforBoolDB.BOOL_2"
+              },
+              {
+                "id": "103",
+                "qc": 3,
+                "ts": "2022-09-30T19:21:16.103Z",
+                "val": 0,
+                "dataType": "Bool",
+                "name": "PerforBoolDB.BOOL_3"
+              }
+            ]
+          }
+        }
+    },
+    {
+        "topic": "iecloudconnector/timeseries_json_generic",
+        "payload": {
+          "clientID": "VM01TEST",
+          "topic": "ie/d/j/simatic/v1/s7c1/dp/r/S71512/default",
+          "protocol": "mqtt",
+          "payload": {
+            "seq": 102,
+            "vals": [
+              {
+                "id": "101",
+                "qc": 3,
+                "ts": "2022-09-30T19:21:18.101Z",
+                "val": 0,
+                "dataType": "Bool",
+                "name": "PerforBoolDB.BOOL_1"
+              },
+              {
+                "id": "102",
+                "qc": 3,
+                "ts": "2022-09-30T19:21:17.102Z",
+                "val": 0,
+                "dataType": "Bool",
+                "name": "PerforBoolDB.BOOL_2"
+              },
+              {
+                "id": "103",
+                "qc": 3,
+                "ts": "2022-09-30T19:21:17.103Z",
+                "val": 0,
+                "dataType": "Bool",
+                "name": "PerforBoolDB.BOOL_3"
+              }
+            ]
+          }
+        }
+      }
+]
