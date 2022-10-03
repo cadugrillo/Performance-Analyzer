@@ -54,7 +54,7 @@ func main() {
 	// errorFlag := false
 	// issue := Issue{}
 
-	f, err := os.Open("captured-data.json")
+	f, err := os.Open("captured-mock-data.json")
 	if err != nil {
 		panic(err)
 	}
