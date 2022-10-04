@@ -143,7 +143,9 @@ export class MqttClientComponent implements OnInit, OnDestroy {
   }
 
   getTelegramsToAnalyze() {
-    this.telegramsToAnalize = this.wrapMessages()
+    this.dialog.open(WaitPopupComponent, {});
+    this.telegramsToAnalize = this.wrapMessages();
+    this.dialog.closeAll();
   }
 
   importTelegramsToAnalyze() {
