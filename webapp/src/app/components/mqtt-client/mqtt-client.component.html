@@ -1,7 +1,8 @@
 <mat-toolbar class="app-toolbar">
     <span>CG-EDGE - IOT Core -  Test Client</span>
   </mat-toolbar>
-  <section>
+  <mat-tab-group class="tab-group">
+    <mat-tab label="Capture">
     <div class="example-button-row">
       <mat-form-field class="mat-input" appearance="standard">
         <mat-label>Topic to Subscribe</mat-label>
@@ -17,7 +18,6 @@
       <button mat-raised-button color="primary" [disabled]="running" (click)="exportMessages()">Export Messages</button>
       <span> (Point your MQTT Publisher to: apps.cadugrillo.com, port 1884)</span>
     </div>
-</section>
 <div class="table-wrapper">
   <mat-form-field class="mat-filter" appearance="standard">
     <mat-label>Topic Filter</mat-label>
@@ -73,3 +73,55 @@
 </mat-paginator>
 </div>
 </div>
+</mat-tab>
+<mat-tab label="Analyze">
+  <div class="apps">
+    <mat-card class="parse-card">
+      <mat-card-title-group>
+        <mat-card-title>Telegrams to Analyze</mat-card-title>
+        <mat-card-subtitle></mat-card-subtitle>
+      </mat-card-title-group>
+      <mat-card-content>
+        <div class="parse-button-row">
+          <button class="parse-button" mat-raised-button color="primary" (click)="getTelegramsToAnalyze()">Get Telegrams</button>
+          <button class="parse-button" mat-raised-button color="primary" (click)="importTelegramsToAnalyze()">Import from File</button>
+          <input type="file" #json accept=".json" style="display: none" (change)="onTelegramasAdded()"/>
+        </div>
+        <mat-card class="inner-card">
+          <mat-card-title-group>
+          <mat-card-title></mat-card-title>
+          <mat-card-subtitle></mat-card-subtitle>
+          </mat-card-title-group>
+          <mat-card-content class="inner-card-text" *ngIf="telegramsToAnalize" [innerText]="toStringData(telegramsToAnalize)"></mat-card-content>
+        </mat-card>
+      </mat-card-content>
+      <mat-card-actions align="end"></mat-card-actions>
+    </mat-card>
+    <mat-card class="query-card">
+      <mat-card-title-group>
+        <mat-card-title>Analysis Result</mat-card-title>
+        <mat-card-subtitle></mat-card-subtitle>
+      </mat-card-title-group>
+      <mat-card-content>
+        <div class="query-button-row">
+          <mat-form-field class="mat-input-medium" appearance="standard">
+            <mat-label>TS Interval (ms)</mat-label>
+            <input  matInput type="number" min="1000" autocomplete="off" placeholder="1000ms" [(ngModel)]="TsInterval" matTooltip="Interval between two records (ms)">
+          </mat-form-field>
+          <button mat-raised-button color="warn" [disabled]="telegramsToAnalize==null || TsInterval<1000 || TsInterval==null" (click)="analyzeTelegramsData(TsInterval)">Analyze Telegrams</button>
+          <button mat-raised-button [disabled]="analyzedData==null" (click)="exportAnalyzedData()">Export JSON</button>
+          <button mat-raised-button (click)="clearAnalyzedData()">Clear all</button>
+        </div>
+        <mat-card class="inner-card">
+          <mat-card-title-group>
+          <mat-card-title></mat-card-title>
+          <mat-card-subtitle></mat-card-subtitle>
+          </mat-card-title-group>
+          <mat-card-content class="inner-card-text" *ngIf="analyzedData" [innerText]="toStringData(analyzedData)"></mat-card-content>
+        </mat-card>
+      </mat-card-content>
+      <mat-card-actions align="end"></mat-card-actions>
+    </mat-card>
+  </div>
+</mat-tab>
+</mat-tab-group>

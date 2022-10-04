@@ -3,9 +3,11 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import { Subscription } from 'rxjs';
 import { IMqttMessage } from "ngx-mqtt";
 import { MqttClientService } from '../../services/mqttClient.service';
+import { SignalsService, AnalyzedData } from '../../services/signals.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MessagePopupComponent } from '../message-popup/message-popup.component';
+import { WaitPopupComponent } from '../wait-popup/wait-popup.component';
 import { MatDialog } from '@angular/material/dialog';
 import { saveAs } from "file-saver";
 
@@ -23,6 +25,7 @@ import { saveAs } from "file-saver";
 })
 export class MqttClientComponent implements OnInit, OnDestroy {
 
+  @ViewChild('json') json: any;
   messages: IMqttMessage[] = [];
   recTS: string[] = [];
   subscription!: Subscription;
@@ -30,8 +33,9 @@ export class MqttClientComponent implements OnInit, OnDestroy {
   maxCapturedMessages = 5000;
   running: boolean = false;
   dataSource!: MatTableDataSource<IMqttMessage>;
-  exportedData: ExportedData[] = [];
-  exportedDataItem: ExportedData = {topic: '', payload: ''}
+  telegramsToAnalize!: ExportedData[];
+  analyzedData!: AnalyzedData;
+  TsInterval!: number;
 
 
   columnsToDisplay = ['Topic', 'Timestamp'];
@@ -40,7 +44,8 @@ export class MqttClientComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private mqttClientService: MqttClientService, public dialog: MatDialog,) {}
+  constructor(private mqttClientService: MqttClientService, public dialog: MatDialog,
+              private SignalsService: SignalsService) {}
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource();
@@ -89,6 +94,10 @@ export class MqttClientComponent implements OnInit, OnDestroy {
     return JSON.stringify(JSON.parse(payload.toString()), null, 2);
   }
 
+  toStringData(parsedSignals: Object): string {
+    return JSON.stringify(parsedSignals, null, 4);
+  }
+
   getTimestamp(format: string): string {
 
     switch(format) {
@@ -118,18 +127,63 @@ export class MqttClientComponent implements OnInit, OnDestroy {
   }
 
   exportMessages() {
-    
-    this.exportedData = [];
-     
+    return saveAs(new Blob([JSON.stringify(this.wrapMessages(), null, 2)], { type: 'JSON' }), 'messages_'+this.getTimestamp("file")+'.json');
+  }
+
+  wrapMessages(): ExportedData[] {
+
+    let exportedData: ExportedData[] = [];
     this.messages.forEach((message) => {
       let exportedDataItem = new ExportedData
       exportedDataItem.topic = message.topic;
       exportedDataItem.payload = JSON.parse(message.payload.toString());
-      this.exportedData.push(exportedDataItem);
+      exportedData.push(exportedDataItem);
     });
-    
-    return saveAs(new Blob([JSON.stringify(this.exportedData, null, 2)], { type: 'JSON' }), 'messages_'+this.getTimestamp("file")+'.json');
+    return exportedData
   }
+
+  getTelegramsToAnalyze() {
+    this.telegramsToAnalize = this.wrapMessages()
+  }
+
+  importTelegramsToAnalyze() {
+    this.json.nativeElement.click();
+   }
+
+   onTelegramasAdded() {
+    this.dialog.open(WaitPopupComponent, {});
+    const jsonfile = this.json.nativeElement.files[0];
+    this.json.nativeElement.value = "";
+
+    let fileReader  = new FileReader();
+    fileReader.readAsText(jsonfile);
+    fileReader.onload = () => {
+      const jsonfiletext = fileReader.result
+      let jsonObject: any = JSON.parse(jsonfiletext as string);
+      let finalObject: ExportedData[] = <ExportedData[]>jsonObject;
+      this.telegramsToAnalize = finalObject;
+      this.dialog.closeAll();
+    }
+   }
+
+  analyzeTelegramsData(tsInterval: number) {
+    this.dialog.open(WaitPopupComponent, {});
+    this.SignalsService.analizeTelegramsData(this.telegramsToAnalize, tsInterval).subscribe((data) => {
+      this.analyzedData = data as AnalyzedData;
+      this.dialog.closeAll();
+      this.dialog.open(MessagePopupComponent, {data: {title: "Analysis Finished", text: "Check Results!"}});
+    });
+  }
+
+  exportAnalyzedData() {
+    return saveAs(new Blob([JSON.stringify(this.analyzedData, null, 2)], { type: 'JSON' }), 'AnalyzedData'+this.getTimestamp("file")+'.json');
+  }
+
+  clearAnalyzedData() {
+    this.telegramsToAnalize = [];
+    this.analyzedData = new AnalyzedData();
+  }
+
 }
 
 class ExportedData {

@@ -27,6 +27,7 @@ func main() {
 	r.POST("/performance-analyzer/signals/parse", handlers.ParseSignalsHandler)
 	r.POST("/performance-analyzer/signals/endresponse", handlers.EndpointResponseHandler)
 	r.GET("/performance-analyzer/signals/analyzedata/:TsInterval", handlers.GetAnalyzedDataHandler)
+	r.POST("/performance-analyzer/signals/analyzetelegrams/:TsInterval", handlers.AnalyzeCapMqttDataHandler)
 
 	httpPort := os.Getenv("HTTP_PORT")
 	if httpPort == "" {

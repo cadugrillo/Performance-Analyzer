@@ -4,15 +4,15 @@
     margin-top: 64px;
 }
 
-section {
-  display: table;
+.tab-group {
   margin-top: 148px;
   margin-left: 20px;
-  margin-bottom: 20px;
   position: absolute;
-}
+  width: 95%;
+ }
 
 .example-button-row {
+  margin-left: 20px;
   display: table-cell;
   width: 1600px;
 }
@@ -22,12 +22,19 @@ section {
 }
 
 .mat-input {
+  margin-top: 20px;
   width: 400px;
-  margin-right: 20px;
+  margin-left: 10px;
 }
 
 .mat-input-small {
+  margin-top: 20px;
   width: 120px;
+  margin-left: 20px;
+}
+
+.mat-input-medium {
+  width: 150px;
   margin-right: 20px;
 }
 
@@ -37,10 +44,9 @@ section {
 }
 
 .table-wrapper {
-  margin-top: 238px;
-  margin-left: 20px;
-  width: 95%;
-  position: absolute;
+  margin-left: 10px;
+  width: 99%;
+  margin-bottom: 20px;
  }
 
 table {
@@ -77,12 +83,6 @@ table {
     height: 104px;
   }
   
-  .example-element-symbol {
-    font-weight: bold;
-    font-size: 40px;
-    line-height: normal;
-  }
-  
   .example-element-description {
     padding: 16px;
   }
@@ -90,3 +90,65 @@ table {
   .example-element-description-attribution {
     opacity: 0.5;
   }
+
+  .apps {
+    width: 100%;
+    display: inline-grid;
+    grid-template-columns: 30% 70%;
+  }
+
+  .parse-card {
+    margin-top: 20px;
+    margin-right: 20px;
+    max-height: 1600px;
+    width: 90%;
+    background-color: rgb(245, 245, 248);
+    overflow: hidden;
+  }
+
+  .query-card {
+    margin-top: 20px;
+    margin-right: 20px;
+    max-height: 1600px;
+    width: 95%;
+    background-color: rgb(245, 245, 248);
+    overflow: hidden;
+  }
+
+  .inner-card {
+    margin-top: 20px;
+    max-height: 600px;
+    width: 91%;
+    background-color: rgb(255, 255, 255);
+    overflow: auto;
+  }
+
+  .parse-button-row {
+    display: table-cell;
+    width: 400px;
+    margin: 8px;
+  }
+  
+  .query-button-row {
+    display: table-cell;
+    width: 1000px;
+    margin: 8px;
+  }
+
+  .parse-button {
+    margin-top: 20px;
+    margin-bottom: 15px;
+  }
+
+  .inner-card-text {
+    max-height: 100%;
+  }
+
+  .same-line {
+    display: inline;
+  }
+
+  button {
+    margin-right: 30px;
+  }
+

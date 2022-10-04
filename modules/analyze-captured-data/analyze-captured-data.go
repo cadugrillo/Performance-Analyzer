@@ -1,9 +1,7 @@
-package main
+package analyze_captured_data
 
 import (
-	"encoding/json"
 	"fmt"
-	"os"
 	"time"
 )
 
@@ -43,71 +41,71 @@ type Issue struct {
 }
 
 var (
-	id       string
-	ts       int64
-	tsOffset int64
+	id               string
+	ts               int64
+	tsOffset         int64
+	idAlreadyChecked bool
 )
 
-func main() {
+func AnalyzeData(telegrams []Telegram, TsInterval int64) AnalyzedData {
 
-	// analyzedData := AnalyzedData{}
-	// errorFlag := false
-	// issue := Issue{}
-
-	f, err := os.Open("captured-mock-data.json")
-	if err != nil {
-		panic(err)
-	}
-	defer f.Close()
-
-	var telegrams []Telegram
-	decoder := json.NewDecoder(f)
-	err = decoder.Decode(&telegrams)
-	if err != nil {
-		panic(err)
-	}
-
-	// fmt.Println(telegrams[0].Payload.Payload.Vals[0])
-
-	// time1, _ := time.Parse(time.RFC3339, telegrams[0].Payload.Payload.Vals[0].Ts).UnixMilli()
-	// time2, _ := time.Parse(time.RFC3339, telegrams[3].Payload.Payload.Vals[0].Ts)
-	// timeDiff := time2.UnixMilli() - time1.UnixMilli()
-
-	// fmt.Println(time1)
-	// fmt.Println(time2)
-	// fmt.Println(timeDiff)
+	analyzedData := AnalyzedData{}
+	errorFlag := false
+	issue := Issue{}
+	checkedIds := []string{}
+	idAlreadyChecked = false
 
 	for i := 0; i < len(telegrams); i++ {
+
 		fmt.Println("Starting analysis with telegram Seq = ", telegrams[i].Payload.Payload.Seq)
 
 		for j := 0; j < len(telegrams[i].Payload.Payload.Vals); j++ {
 
-			id = telegrams[i].Payload.Payload.Vals[j].Id
-			tsRFC3339, _ := time.Parse(time.RFC3339, telegrams[i].Payload.Payload.Vals[j].Ts)
-			ts = tsRFC3339.UnixMilli()
-			tsOffset = 200
-
-			for k := i; k < len(telegrams); k++ {
-				for l := 0; l < len(telegrams[k].Payload.Payload.Vals); l++ {
-					if telegrams[k].Payload.Payload.Vals[l].Id == id {
-						cmptsRFC3339, _ := time.Parse(time.RFC3339, telegrams[k].Payload.Payload.Vals[l].Ts)
-						cmpts := cmptsRFC3339.UnixMilli()
-						// fmt.Println("debug1: ", telegrams[k].Payload.Payload.Vals[l].Id) //debugging
-						// fmt.Println("debug2: ", cmpts)                                   //debugging
-						// fmt.Println("debug3: ", ts)                                      //debugging
-						// fmt.Println("debug4: ", cmpts-ts)                                //debugging
-						if (cmpts - ts) > 1000+tsOffset {
-							msg := fmt.Sprintf("Possible missing records from id: %s near seq: %d", id, telegrams[k].Payload.Payload.Seq)
-							fmt.Println(msg)
-						}
-						ts = cmpts
-
-						// fmt.Println("debug5: ", tsOffset) //debugging
-
-					}
+			for p := 0; p < len(checkedIds); p++ {
+				if telegrams[i].Payload.Payload.Vals[j].Id == checkedIds[p] {
+					idAlreadyChecked = true
 				}
 			}
 
+			if idAlreadyChecked == false {
+
+				id = telegrams[i].Payload.Payload.Vals[j].Id
+				issue.SignalId = fmt.Sprintf("%s - from Telegram Seq number = %d", telegrams[i].Payload.Payload.Vals[j].Id, telegrams[i].Payload.Payload.Seq)
+				tsRFC3339, _ := time.Parse(time.RFC3339, telegrams[i].Payload.Payload.Vals[j].Ts)
+				ts = tsRFC3339.UnixMilli()
+				tsOffset = 200
+
+				for k := i; k < len(telegrams); k++ {
+
+					for l := 0; l < len(telegrams[k].Payload.Payload.Vals); l++ {
+
+						if telegrams[k].Payload.Payload.Vals[l].Id == id {
+
+							cmptsRFC3339, _ := time.Parse(time.RFC3339, telegrams[k].Payload.Payload.Vals[l].Ts)
+							cmpts := cmptsRFC3339.UnixMilli()
+
+							if (cmpts - ts) > TsInterval+tsOffset {
+
+								errorFlag = true
+								Message := fmt.Sprintf("Missing records near seq: %d", telegrams[k].Payload.Payload.Seq)
+								issue.Messages = append(issue.Messages, Message)
+								fmt.Println("Missing records from id: ", id, "near seq: ", telegrams[k].Payload.Payload.Seq)
+							}
+							ts = cmpts
+							checkedIds = append(checkedIds, id)
+						}
+					}
+				}
+				if errorFlag {
+
+					analyzedData.Issues = append(analyzedData.Issues, issue)
+					issue = Issue{}
+					errorFlag = false
+				}
+			}
+			idAlreadyChecked = false
 		}
 	}
+
+	return analyzedData
 }

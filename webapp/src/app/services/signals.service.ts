@@ -20,6 +20,10 @@ export class SignalsService {
   analizeData(nrec: number) {
     return this.httpClient.get(environment.gateway + '/performance-analyzer/signals/analyzedata/'+nrec)
   }
+
+  analizeTelegramsData(file: any, tsInterval: number) {
+    return this.httpClient.post(environment.gateway + '/performance-analyzer/signals/analyzetelegrams/'+tsInterval, file);
+  }
 }
 
 export class ParsedSignals {

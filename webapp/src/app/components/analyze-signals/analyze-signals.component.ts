@@ -43,6 +43,7 @@ export class AnalyzeSignalsComponent implements OnInit {
    onSigToParseAdded() {
     this.dialog.open(WaitPopupComponent, {});
     const xlsx = this.xlsx.nativeElement.files[0];
+    this.xlsx.nativeElement.value = "";
     this.SignalsService.parseSignals(xlsx).subscribe((data) => {
       this.parsedSignals = data as ParsedSignals;
       this.dialog.closeAll();
@@ -63,6 +64,7 @@ export class AnalyzeSignalsComponent implements OnInit {
    onEndpResponseAdded() {
     this.dialog.open(WaitPopupComponent, {});
     const json = this.json.nativeElement.files[0];
+    this.json.nativeElement.value = "";
     this.SignalsService.endpointResponse(json).subscribe((data) => {
       this.endpointResponse = data as EndpointResponse;
       this.dialog.closeAll();
