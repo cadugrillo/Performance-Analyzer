@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"io/fs"
 	"io/ioutil"
@@ -79,15 +80,24 @@ func GetAnalyzedDataHandler(c *gin.Context) {
 }
 
 ////////////////ANALYZE MQTT CAPTURED DATA HANDLER///////////////
-func AnalyzeCapMqttDataHandler(c *gin.Context) {
-	TsIntervalString := c.Param("TsInterval")
-	TsInterval, _ := strconv.ParseInt(TsIntervalString, 10, 64)
+func CheckTelegramsHandler(c *gin.Context) {
 	CapMqttData, statusCode, err := JsonBodyToCapMqttData(c.Request.Body)
 	if err != nil {
 		c.JSON(statusCode, err)
 		return
 	}
-	c.JSON(http.StatusOK, analyze_captured_data.AnalyzeData(CapMqttData, TsInterval))
+	CheckedTelegrams, err := analyze_captured_data.CheckTelegrams(CapMqttData)
+	if err != nil {
+		c.JSON(statusCode, err)
+		return
+	}
+	c.JSON(http.StatusOK, CheckedTelegrams)
+}
+
+func AnalyzeCapMqttDataHandler(c *gin.Context) {
+	TsIntervalString := c.Param("TsInterval")
+	TsInterval, _ := strconv.ParseInt(TsIntervalString, 10, 64)
+	c.JSON(http.StatusOK, analyze_captured_data.AnalyzeData(TsInterval))
 }
 
 func JsonBodyToCapMqttData(httpBody io.ReadCloser) ([]analyze_captured_data.Telegram, int, error) {
@@ -99,6 +109,7 @@ func JsonBodyToCapMqttData(httpBody io.ReadCloser) ([]analyze_captured_data.Tele
 	var CapMqttData []analyze_captured_data.Telegram
 	err = json.Unmarshal(body, &CapMqttData)
 	if err != nil {
+		fmt.Println(err.Error())
 		return []analyze_captured_data.Telegram{}, http.StatusBadRequest, err
 	}
 	return CapMqttData, http.StatusOK, nil

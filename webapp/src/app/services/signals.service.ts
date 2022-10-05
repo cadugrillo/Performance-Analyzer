@@ -21,8 +21,12 @@ export class SignalsService {
     return this.httpClient.get(environment.gateway + '/performance-analyzer/signals/analyzedata/'+nrec)
   }
 
-  analizeTelegramsData(file: any, tsInterval: number) {
-    return this.httpClient.post(environment.gateway + '/performance-analyzer/signals/analyzetelegrams/'+tsInterval, file);
+  checkTelegramsData(file: any) {
+    return this.httpClient.post(environment.gateway + '/performance-analyzer/signals/checktelegrams', file);
+  }
+
+  analizeTelegramsData(tsInterval: number) {
+    return this.httpClient.get(environment.gateway + '/performance-analyzer/signals/analyzetelegrams/'+tsInterval);
   }
 }
 

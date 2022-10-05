@@ -46,9 +46,20 @@ var (
 	ts               int64
 	tsOffset         int64
 	idAlreadyChecked bool
+	telegrams        []Telegram
 )
 
-func AnalyzeData(telegrams []Telegram, TsInterval int64) AnalyzedData {
+func CheckTelegrams(tlgs []Telegram) (string, error) {
+	// if tlgs == nil {
+	// 	fmt.Println("Something went wrong")
+	// 	err := errors.New("Something went wrong")
+	// 	return "No telegrams to upload from Capture tab!", err
+	// }
+	telegrams = tlgs
+	return "Telegrams successfully uploaded", nil
+}
+
+func AnalyzeData(TsInterval int64) AnalyzedData {
 
 	analyzedData := AnalyzedData{}
 	errorFlag := false
