@@ -16,12 +16,12 @@ spec:
     spec:
       containers:
         - name: perf-analyzer-api
-          image: cadugrillo/perf-analyzer-api:1.2
+          image: cadugrillo/perf-analyzer-api:1.3
           imagePullPolicy: Always
           ports:
           - containerPort: 4300
         - name: perf-analyzer-webapp
-          image: cadugrillo/perf-analyzer-webapp:1.2
+          image: cadugrillo/perf-analyzer-webapp:1.3
           imagePullPolicy: Always
           ports:
           - containerPort: 80
