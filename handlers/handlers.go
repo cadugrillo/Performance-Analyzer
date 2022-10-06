@@ -97,7 +97,19 @@ func CheckTelegramsHandler(c *gin.Context) {
 func AnalyzeCapMqttDataHandler(c *gin.Context) {
 	TsIntervalString := c.Param("TsInterval")
 	TsInterval, _ := strconv.ParseInt(TsIntervalString, 10, 64)
-	c.JSON(http.StatusOK, analyze_captured_data.AnalyzeData(TsInterval))
+	c.JSON(http.StatusOK, analyze_captured_data.StartAnalysis(TsInterval))
+}
+
+func GetAnalysisStatusHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, analyze_captured_data.GetAnalysisStatus())
+}
+
+func GetAnalysisResultHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, analyze_captured_data.GetAnalysisResult())
+}
+
+func AbortAnalysisHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, analyze_captured_data.AbortAnalysis())
 }
 
 func JsonBodyToCapMqttData(httpBody io.ReadCloser) ([]analyze_captured_data.Telegram, int, error) {
@@ -114,23 +126,3 @@ func JsonBodyToCapMqttData(httpBody io.ReadCloser) ([]analyze_captured_data.Tele
 	}
 	return CapMqttData, http.StatusOK, nil
 }
-
-/////////////////////////////////////////////////////
-
-// func convertHTTPBodyToTodo(httpBody io.ReadCloser) (dbdriver.Todo, int, error) {
-// 	body, err := ioutil.ReadAll(httpBody)
-// 	if err != nil {
-// 		return dbdriver.Todo{}, http.StatusInternalServerError, err
-// 	}
-// 	defer httpBody.Close()
-// 	return convertJSONBodyToTodo(body)
-// }
-
-// func convertJSONBodyToTodo(jsonBody []byte) (dbdriver.Todo, int, error) {
-// 	var todoItem dbdriver.Todo
-// 	err := json.Unmarshal(jsonBody, &todoItem)
-// 	if err != nil {
-// 		return dbdriver.Todo{}, http.StatusBadRequest, err
-// 	}
-// 	return todoItem, http.StatusOK, nil
-// }
