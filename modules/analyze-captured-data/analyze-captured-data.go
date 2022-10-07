@@ -54,11 +54,7 @@ var (
 )
 
 func CheckTelegrams(tlgs []Telegram) (string, error) {
-	// if tlgs == nil {
-	// 	fmt.Println("Something went wrong")
-	// 	err := errors.New("Something went wrong")
-	// 	return "No telegrams to upload from Capture tab!", err
-	// }
+
 	telegrams = tlgs
 	return "Telegrams successfully uploaded", nil
 }
