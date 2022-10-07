@@ -83,8 +83,8 @@
       </mat-card-title-group>
       <mat-card-content>
         <div class="parse-button-row">
-          <button class="parse-button" mat-raised-button color="primary" (click)="getTelegramsToAnalyze()">Get Telegrams</button>
-          <button class="parse-button" mat-raised-button color="primary" (click)="importTelegramsToAnalyze()">Import from File</button>
+          <button class="parse-button" mat-raised-button color="primary" [disabled]="analysisStatus=='Analysis Status: Running'" (click)="getTelegramsToAnalyze()">Get Telegrams</button>
+          <button class="parse-button" mat-raised-button color="primary" [disabled]="analysisStatus=='Analysis Status: Running'" (click)="importTelegramsToAnalyze()">Import from File</button>
           <input type="file" #json accept=".json" style="display: none" (change)="onTelegramasAdded()"/>
         </div>
         <mat-card class="inner-card">
