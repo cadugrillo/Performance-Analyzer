@@ -54,11 +54,11 @@ var (
 )
 
 func CheckTelegrams(tlgs []Telegram) (string, error) {
-	// if tlgs == nil {
-	// 	fmt.Println("Something went wrong")
-	// 	err := errors.New("Something went wrong")
-	// 	return "No telegrams to upload from Capture tab!", err
-	// }
+
+	if analysisRunning {
+		return "Operation not permitted while Analysis running", nil
+	}
+
 	telegrams = tlgs
 	return "Telegrams successfully uploaded", nil
 }
@@ -115,10 +115,11 @@ func AnalyzeData(TsInterval int64) {
 				for p := 0; p < len(checkedIds); p++ {
 					if telegrams[i].Payload.Payload.Vals[j].Id == checkedIds[p] {
 						idAlreadyChecked = true
+						break
 					}
 				}
 
-				if idAlreadyChecked == false {
+				if !idAlreadyChecked {
 
 					id = telegrams[i].Payload.Payload.Vals[j].Id
 					issue.SignalId = fmt.Sprintf("%s - from Telegram Seq number = %d", telegrams[i].Payload.Payload.Vals[j].Id, telegrams[i].Payload.Payload.Seq)
