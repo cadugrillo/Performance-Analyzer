@@ -72,14 +72,14 @@ func JsonBodyToEndpointResponse(httpBody io.ReadCloser) (analyze_signals.Endpoin
 	return EndpointResponse, http.StatusOK, nil
 }
 
-////////////////ANALYZE SIGNALS DATA HANDLER///////////////
+// //////////////ANALYZE SIGNALS DATA HANDLER///////////////
 func GetAnalyzedDataHandler(c *gin.Context) {
 	TsIntervalString := c.Param("TsInterval")
 	TsInterval, _ := strconv.ParseInt(TsIntervalString, 10, 64)
 	c.JSON(http.StatusOK, analyze_signals.AnalyzeData(TsInterval))
 }
 
-////////////////ANALYZE MQTT CAPTURED DATA HANDLER///////////////
+// //////////////ANALYZE MQTT CAPTURED DATA HANDLER///////////////
 func CheckTelegramsHandler(c *gin.Context) {
 	CapMqttData, statusCode, err := JsonBodyToCapMqttData(c.Request.Body)
 	if err != nil {
@@ -97,19 +97,7 @@ func CheckTelegramsHandler(c *gin.Context) {
 func AnalyzeCapMqttDataHandler(c *gin.Context) {
 	TsIntervalString := c.Param("TsInterval")
 	TsInterval, _ := strconv.ParseInt(TsIntervalString, 10, 64)
-	c.JSON(http.StatusOK, analyze_captured_data.StartAnalysis(TsInterval))
-}
-
-func GetAnalysisStatusHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, analyze_captured_data.GetAnalysisStatus())
-}
-
-func GetAnalysisResultHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, analyze_captured_data.GetAnalysisResult())
-}
-
-func AbortAnalysisHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, analyze_captured_data.AbortAnalysis())
+	c.JSON(http.StatusOK, analyze_captured_data.AnalyzeData(TsInterval))
 }
 
 func JsonBodyToCapMqttData(httpBody io.ReadCloser) ([]analyze_captured_data.Telegram, int, error) {

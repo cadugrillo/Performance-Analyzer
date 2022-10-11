@@ -29,9 +29,6 @@ func main() {
 	r.GET("/performance-analyzer/signals/analyzedata/:TsInterval", handlers.GetAnalyzedDataHandler)
 	r.POST("/performance-analyzer/signals/checktelegrams", handlers.CheckTelegramsHandler)
 	r.GET("/performance-analyzer/signals/analyzetelegrams/:TsInterval", handlers.AnalyzeCapMqttDataHandler)
-	r.GET("/performance-analyzer/signals/analyzetelegrams/status", handlers.GetAnalysisStatusHandler)
-	r.GET("/performance-analyzer/signals/analyzetelegrams/results", handlers.GetAnalysisResultHandler)
-	r.GET("/performance-analyzer/signals/analyzetelegrams/abort", handlers.AbortAnalysisHandler)
 
 	httpPort := os.Getenv("HTTP_PORT")
 	if httpPort == "" {

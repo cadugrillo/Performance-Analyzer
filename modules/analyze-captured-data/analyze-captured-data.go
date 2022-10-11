@@ -48,51 +48,15 @@ var (
 	idAlreadyChecked bool
 	telegrams        []Telegram
 	analyzedData     AnalyzedData
-	analysisStatus   string = "Not Running" // Not Running, Running, Finished, Aborted
-	analysisRunning  bool   = false
-	abortAnalysis    bool   = false
 )
 
 func CheckTelegrams(tlgs []Telegram) (string, error) {
-
-	if analysisRunning {
-		return "Operation not permitted while Analysis running", nil
-	}
 
 	telegrams = tlgs
 	return "Telegrams successfully uploaded", nil
 }
 
-func StartAnalysis(TsInterval int64) string {
-
-	if analysisRunning {
-		return GetAnalysisStatus()
-	}
-
-	analysisStatus = "Running"
-	analysisRunning = true
-	abortAnalysis = false
-
-	go AnalyzeData(TsInterval)
-
-	return GetAnalysisStatus()
-}
-
-func GetAnalysisStatus() string {
-	return analysisStatus
-}
-
-func GetAnalysisResult() AnalyzedData {
-	return analyzedData
-}
-
-func AbortAnalysis() string {
-	abortAnalysis = true
-	time.Sleep(2 * time.Second)
-	return "Abort Analysis requested!"
-}
-
-func AnalyzeData(TsInterval int64) {
+func AnalyzeData(TsInterval int64) AnalyzedData {
 
 	analyzedData = AnalyzedData{}
 	errorFlag := false
@@ -101,10 +65,6 @@ func AnalyzeData(TsInterval int64) {
 	idAlreadyChecked = false
 
 	for i := 0; i < len(telegrams); i++ {
-
-		if abortAnalysis == true {
-			break
-		}
 
 		if !strings.Contains(telegrams[i].Topic, "timeseries_json_generic") {
 			continue
@@ -161,12 +121,7 @@ func AnalyzeData(TsInterval int64) {
 			}
 		}
 	}
-	analysisRunning = false
-	if abortAnalysis {
-		analysisStatus = "Aborted"
-	} else {
-		analysisStatus = "Finished"
-	}
-	abortAnalysis = false
+	telegrams = []Telegram{}
 	fmt.Println("Analyzed Record IDs:", checkedIds)
+	return analyzedData
 }

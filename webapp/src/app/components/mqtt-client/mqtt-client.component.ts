@@ -50,7 +50,6 @@ export class MqttClientComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource();
-    this.getAnalysysStatus();
   }
 
   ngOnDestroy(): void {
@@ -169,36 +168,12 @@ export class MqttClientComponent implements OnInit, OnDestroy {
   analyzeTelegramsData(tsInterval: number) {
     this.dialog.open(WaitPopupComponent, {});
     this.SignalsService.analizeTelegramsData(tsInterval).subscribe((data) => {
-      this.analysisStatus = "Analysis Status: " + data as string;
-      this.dialog.closeAll();
-      this.dialog.open(MessagePopupComponent, {data: {title: "Analysis Started", text: "Wait for Results!"}});
-    });
-  }
-
-  getAnalysysStatus() {
-    this.SignalsService.getAnalysisStatus().subscribe((data) => {
-      this.analysisStatus = "Analysis Status: " + data as string;
-    });
-  }
-
-  getAnalysysResults() {
-    this.dialog.open(WaitPopupComponent, {});
-    this.SignalsService.getAnalysisResults().subscribe((data) => {
       this.analyzedData = data as AnalyzedData;
+      this.telegramsToAnalize = {}
       this.dialog.closeAll();
+      this.dialog.open(MessagePopupComponent, {data: {title: "Analysis Finished", text: "Check Results!"}});
     });
   }
-
-  abortAnalysys() {
-    this.dialog.open(WaitPopupComponent, {});
-    this.SignalsService.abortAnalysis().subscribe((data) => {
-      this.dialog.closeAll();
-      this.dialog.open(MessagePopupComponent, {data: {title: "Abort Analysis", text: data}});
-      this.getAnalysysStatus();
-    });
-  }
-
- 
 
   exportAnalyzedData() {
     return saveAs(new Blob([JSON.stringify(this.analyzedData, null, 2)], { type: 'JSON' }), 'AnalyzedData'+this.getTimestamp("file")+'.json');

@@ -28,20 +28,6 @@ export class SignalsService {
   analizeTelegramsData(tsInterval: number) {
     return this.httpClient.get(environment.gateway + '/performance-analyzer/signals/analyzetelegrams/'+tsInterval);
   }
-
-  getAnalysisStatus() {
-    return this.httpClient.get(environment.gateway + '/performance-analyzer/signals/analyzetelegrams/status');
-  }
-
-  getAnalysisResults() {
-    return this.httpClient.get(environment.gateway + '/performance-analyzer/signals/analyzetelegrams/results');
-  }
-
-  abortAnalysis() {
-    return this.httpClient.get(environment.gateway + '/performance-analyzer/signals/analyzetelegrams/abort');
-  }
-
- 
 }
 
 export class ParsedSignals {
