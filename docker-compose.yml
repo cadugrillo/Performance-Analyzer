@@ -7,11 +7,28 @@ services:
     restart: always
     ports:
       - 80:80
+    mem_limit: 1024m
+    cpus: 0.5
 
   perf-analyzer-api:
     image: cadugrillo/perf-analyzer-api:1.4
     container_name: perf-analyzer-api
     restart: always
-  
+    mem_limit: 2048m
+    cpus: 1.0
+ 
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    restart: always
+    ports:
+      - 1883:1883
+      - 9884:9884
+    volumes:
+      - type: bind
+        source: ./docker-compose-mosquitto.conf
+        target: /mosquitto/config/mosquitto.conf
+        read_only: true
+
    
 

@@ -77,6 +77,35 @@
               ],
               "outputHashing": "all"
             },
+            "production-local": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "2mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod-local.ts"
+                },
+                {
+                  "replace": "src/app/services/cognito.service.ts",
+                  "with": "src/app/services/cognito.service-local.ts"
+                },
+                {
+                  "replace": "src/app/app-routing.module.ts",
+                  "with": "src/app/app-routing.module-local.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
             "development": {
               "buildOptimizer": false,
               "optimization": false,
