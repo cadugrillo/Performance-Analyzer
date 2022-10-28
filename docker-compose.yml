@@ -11,10 +11,10 @@ services:
     cpus: 0.5
 
   perf-analyzer-api:
-    image: cadugrillo/perf-analyzer-api:1.4
+    image: cadugrillo/perf-analyzer-api:1.5
     container_name: perf-analyzer-api
     restart: always
-    mem_limit: 2048m
+    mem_limit: 3072m
     cpus: 1.0
  
   mosquitto:

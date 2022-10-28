@@ -18,6 +18,13 @@ spec:
         - name: perf-analyzer-api
           image: cadugrillo/perf-analyzer-api:1.4
           imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "0.5"
+              memory: "1536Mi"
+            limits:
+              cpu: "1"
+              memory: "2048Mi"
           ports:
           - containerPort: 4300
         - name: perf-analyzer-webapp
