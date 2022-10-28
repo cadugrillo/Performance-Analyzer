@@ -37,6 +37,7 @@ yarn-error.log
 testem.log
 /typings
 *.json
+*.xlsx
 
 # System files
 .DS_Store
