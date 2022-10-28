@@ -5,11 +5,13 @@ import (
 	"path"
 	"path/filepath"
 	"performance-analyzer/handlers"
+	"runtime/debug"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	debug.SetGCPercent(1)
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.Use(CORSMiddleware())
