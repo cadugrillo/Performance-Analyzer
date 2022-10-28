@@ -28,7 +28,7 @@ spec:
           ports:
           - containerPort: 4300
         - name: perf-analyzer-webapp
-          image: cadugrillo/perf-analyzer-webapp:1.4
+          image: cadugrillo/perf-analyzer-webapp:1.5
           imagePullPolicy: Always
           ports:
           - containerPort: 80

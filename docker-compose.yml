@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   perf-analyzer-webapp:
-    image: cadugrillo/perf-analyzer-webapp:1.4local
+    image: cadugrillo/perf-analyzer-webapp:1.5local
     container_name: perf-analyzer-webapp
     restart: always
     ports:

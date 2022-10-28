@@ -35,7 +35,7 @@ export class MqttClientComponent implements OnInit, OnDestroy {
   dataSource!: MatTableDataSource<IMqttMessage>;
   telegramsToAnalize!: Object;
   analyzedData!: AnalyzedData;
-  analysisStatus!: string
+  analysisRunning: boolean = false;
   TsInterval!: number;
 
 
@@ -61,6 +61,7 @@ export class MqttClientComponent implements OnInit, OnDestroy {
     this.running = false;
     this.messages = [];
     this.recTS = [];  
+    this.analysisRunning = false;
 }
 
   subscribeToTopic(topic: string) {
@@ -157,20 +158,23 @@ export class MqttClientComponent implements OnInit, OnDestroy {
 
    onTelegramasAdded() {
     this.dialog.open(WaitPopupComponent, {});
+    this.analysisRunning = true;
     const jsonfile = this.json.nativeElement.files[0];
     this.json.nativeElement.value = "";
     this.SignalsService.checkTelegramsData(jsonfile).subscribe((data) => {
       this.telegramsToAnalize = data;
+      this.analysisRunning = false;
       this.dialog.closeAll();
     });
    }
 
   analyzeTelegramsData(tsInterval: number) {
     this.dialog.open(WaitPopupComponent, {});
+    this.analysisRunning = true;
     this.SignalsService.analizeTelegramsData(tsInterval).subscribe((data) => {
       this.analyzedData = data as AnalyzedData;
-      this.telegramsToAnalize = {}
       this.dialog.closeAll();
+      this.analysisRunning = false;
       this.dialog.open(MessagePopupComponent, {data: {title: "Analysis Finished", text: "Check Results!"}});
     });
   }
@@ -180,7 +184,7 @@ export class MqttClientComponent implements OnInit, OnDestroy {
   }
 
   clearAnalyzedData() {
-    this.telegramsToAnalize = [];
+    this.telegramsToAnalize = {};
     this.analyzedData = new AnalyzedData();
   }
 

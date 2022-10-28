@@ -83,8 +83,8 @@
       </mat-card-title-group>
       <mat-card-content>
         <div class="parse-button-row">
-          <button class="parse-button" mat-raised-button color="primary" [disabled]="analysisStatus=='Analysis Status: Running'" (click)="getTelegramsToAnalyze()">Get Telegrams</button>
-          <button class="parse-button" mat-raised-button color="primary" [disabled]="analysisStatus=='Analysis Status: Running'" (click)="importTelegramsToAnalyze()">Import from File</button>
+          <button class="parse-button" mat-raised-button color="primary" [disabled]="analysisRunning" (click)="getTelegramsToAnalyze()">Get Telegrams</button>
+          <button class="parse-button" mat-raised-button color="primary" [disabled]="analysisRunning" (click)="importTelegramsToAnalyze()">Import from File</button>
           <input type="file" #json accept=".json" style="display: none" (change)="onTelegramasAdded()"/>
         </div>
         <mat-card class="inner-card">
@@ -108,8 +108,8 @@
             <mat-label>TS Interval (ms)</mat-label>
             <input  matInput type="number" min="1000" autocomplete="off" placeholder="1000ms" [(ngModel)]="TsInterval" matTooltip="Interval between two records (ms)">
           </mat-form-field>
-          <button mat-raised-button color="warn" [disabled]="telegramsToAnalize==null || TsInterval<1000 || TsInterval==null || analysisStatus=='Analysis Status: Running'" (click)="analyzeTelegramsData(TsInterval)">Analyze Telegrams</button>
-          <button mat-raised-button [disabled]="analyzedData==null" (click)="exportAnalyzedData()">Export JSON</button>
+          <button mat-raised-button color="warn" [disabled]="telegramsToAnalize==null || TsInterval<1000 || TsInterval==null || analysisRunning==true" (click)="analyzeTelegramsData(TsInterval)">Analyze Telegrams</button>
+          <button mat-raised-button [disabled]="analyzedData==null || analysisRunning==true" (click)="exportAnalyzedData()">Export JSON</button>
           <button mat-raised-button (click)="clearAnalyzedData()">Clear all</button>
         </div>
         <mat-card class="inner-card">
