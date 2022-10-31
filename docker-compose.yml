@@ -29,6 +29,3 @@ services:
         source: ./docker-compose-mosquitto.conf
         target: /mosquitto/config/mosquitto.conf
         read_only: true
-
-   
-
