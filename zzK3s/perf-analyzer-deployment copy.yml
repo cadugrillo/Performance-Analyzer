@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: perf-analyzer
+  labels:
+    app: perf-analyzer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: perf-analyzer
+  template:
+    metadata:
+      labels:
+        app: perf-analyzer
+    spec:
+      containers:
+        - name: perf-analyzer-api
+          image: cadugrillo/perf-analyzer-api:2.0
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "0.5"
+              memory: "1024Mi"
+            limits:
+              cpu: "1"
+              memory: "2048Mi"
+          ports:
+          - containerPort: 4300
+        - name: perf-analyzer-webapp
+          image: cadugrillo/perf-analyzer-webapp:2.0
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: perf-analyzer-service
+spec:
+  selector:
+    app: perf-analyzer
+  ports:
+    - port: 80
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: perf-analyzer
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+spec:
+  rules:  
+  - http:
+      paths:
+      - path: /performance-analyzer
+        pathType: Prefix
+        backend:
+          service:
+            name: perf-analyzer-service
+            port:
+              number: 80

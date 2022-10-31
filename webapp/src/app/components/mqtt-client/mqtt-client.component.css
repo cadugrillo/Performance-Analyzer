@@ -92,18 +92,7 @@ table {
   }
 
   .apps {
-    width: 100%;
-    display: inline-grid;
-    grid-template-columns: 30% 70%;
-  }
-
-  .parse-card {
-    margin-top: 20px;
-    margin-right: 20px;
-    max-height: 1600px;
-    width: 90%;
-    background-color: rgb(245, 245, 248);
-    overflow: hidden;
+    width: 80%;
   }
 
   .query-card {
@@ -118,7 +107,7 @@ table {
   .inner-card {
     margin-top: 20px;
     max-height: 600px;
-    width: 91%;
+    width: 97%;
     background-color: rgb(255, 255, 255);
     overflow: auto;
   }
