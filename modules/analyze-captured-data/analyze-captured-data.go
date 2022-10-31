@@ -1,9 +1,7 @@
 package analyze_captured_data
 
 import (
-	"encoding/json"
 	"fmt"
-	"os"
 	"strings"
 	"time"
 )
@@ -51,20 +49,9 @@ var (
 	analyzedData     AnalyzedData
 )
 
-func AnalyzeData(TsInterval int64) AnalyzedData {
+func AnalyzeData(Telegrams *[]Telegram, TsInterval int64) AnalyzedData {
 
-	f, err := os.Open("./capMqttData.json")
-	if err != nil {
-		return AnalyzedData{[]Issue{{SignalId: "Internal Process", Messages: []string{"Error reading JSON file"}}}}
-	}
-	defer f.Close()
-
-	var telegrams []Telegram
-	decoder := json.NewDecoder(f)
-	err = decoder.Decode(&telegrams)
-	if err != nil {
-		return AnalyzedData{[]Issue{{SignalId: "Internal Process", Messages: []string{"Error parsing JSON file"}}}}
-	}
+	telegrams := *Telegrams
 
 	errorFlag := false
 	issue := Issue{}

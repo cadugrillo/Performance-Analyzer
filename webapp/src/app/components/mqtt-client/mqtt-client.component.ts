@@ -34,6 +34,7 @@ export class MqttClientComponent implements OnInit, OnDestroy {
   running: boolean = false;
   dataSource!: MatTableDataSource<IMqttMessage>;
   telegramsToAnalize!: Object;
+  telegramsImportStatus: string = ""
   analyzedData!: AnalyzedData;
   analysisRunning: boolean = false;
   TsInterval!: number;
@@ -144,34 +145,29 @@ export class MqttClientComponent implements OnInit, OnDestroy {
     return exportedData
   }
 
-  getTelegramsToAnalyze() {
+  analyzeFromCapture(tsInterval: number) {
     this.dialog.open(WaitPopupComponent, {});
-    this.SignalsService.checkTelegramsData(this.wrapMessages()).subscribe((data) => {
-      this.telegramsToAnalize = data;
+    this.analysisRunning = true;
+    this.SignalsService.analizeTelegramsData(this.wrapMessages(), tsInterval).subscribe((data) => {
+      this.analyzedData = data as AnalyzedData;
       this.dialog.closeAll();
+      this.analysisRunning = false;
+      this.dialog.open(MessagePopupComponent, {data: {title: "Analysis Finished", text: "Check Results!"}});
     });
+
+
   }
 
   importTelegramsToAnalyze() {
     this.json.nativeElement.click();
    }
 
-   onTelegramasAdded() {
+  onTelegramasAdded(tsInterval: number) {
     this.dialog.open(WaitPopupComponent, {});
     this.analysisRunning = true;
     const jsonfile = this.json.nativeElement.files[0];
     this.json.nativeElement.value = "";
-    this.SignalsService.checkTelegramsData(jsonfile).subscribe((data) => {
-      this.telegramsToAnalize = data;
-      this.analysisRunning = false;
-      this.dialog.closeAll();
-    });
-   }
-
-  analyzeTelegramsData(tsInterval: number) {
-    this.dialog.open(WaitPopupComponent, {});
-    this.analysisRunning = true;
-    this.SignalsService.analizeTelegramsData(tsInterval).subscribe((data) => {
+    this.SignalsService.analizeTelegramsData(jsonfile, tsInterval).subscribe((data) => {
       this.analyzedData = data as AnalyzedData;
       this.dialog.closeAll();
       this.analysisRunning = false;

@@ -1,14 +1,12 @@
 package handlers
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
 	"io"
 	"io/fs"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"strconv"
 
 	analyze_captured_data "performance-analyzer/modules/analyze-captured-data"
@@ -81,25 +79,17 @@ func GetAnalyzedDataHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, analyze_signals.AnalyzeData(TsInterval))
 }
 
-func CheckTelegramsHandler(c *gin.Context) {
-
-	file, _ := os.Create("capMqttData.json")
-	defer file.Close()
-
-	writer := bufio.NewWriter(file)
-	_, err := io.Copy(writer, c.Request.Body)
-	writer.Flush()
-	if err != nil {
-		c.JSON(http.StatusBadRequest, err)
-		return
-	}
-	c.JSON(http.StatusOK, "Telegrams successfully uploaded")
-}
-
 func AnalyzeCapMqttDataHandler(c *gin.Context) {
 	TsIntervalString := c.Param("TsInterval")
 	TsInterval, _ := strconv.ParseInt(TsIntervalString, 10, 64)
-	c.JSON(http.StatusOK, analyze_captured_data.AnalyzeData(TsInterval))
+
+	Telegrams, statusCode, err := JsonBodyToCapMqttData(c.Request.Body)
+	if err != nil {
+		c.JSON(statusCode, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, analyze_captured_data.AnalyzeData(Telegrams, TsInterval))
 }
 
 func JsonBodyToCapMqttData(httpBody io.ReadCloser) (*[]analyze_captured_data.Telegram, int, error) {

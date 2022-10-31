@@ -76,39 +76,20 @@
 </mat-tab>
 <mat-tab label="Analyze">
   <div class="apps">
-    <mat-card class="parse-card">
-      <mat-card-title-group>
-        <mat-card-title>Telegrams to Analyze</mat-card-title>
-        <mat-card-subtitle></mat-card-subtitle>
-      </mat-card-title-group>
-      <mat-card-content>
-        <div class="parse-button-row">
-          <button class="parse-button" mat-raised-button color="primary" [disabled]="analysisRunning" (click)="getTelegramsToAnalyze()">Get Telegrams</button>
-          <button class="parse-button" mat-raised-button color="primary" [disabled]="analysisRunning" (click)="importTelegramsToAnalyze()">Import from File</button>
-          <input type="file" #json accept=".json" style="display: none" (change)="onTelegramasAdded()"/>
-        </div>
-        <mat-card class="inner-card">
-          <mat-card-title-group>
-          <mat-card-title></mat-card-title>
-          <mat-card-subtitle></mat-card-subtitle>
-          </mat-card-title-group>
-          <mat-card-content class="inner-card-text" *ngIf="telegramsToAnalize" [innerText]="toStringData(telegramsToAnalize)"></mat-card-content>
-        </mat-card>
-      </mat-card-content>
-      <mat-card-actions align="end"></mat-card-actions>
-    </mat-card>
     <mat-card class="query-card">
       <mat-card-title-group>
-        <mat-card-title>Analysis Result</mat-card-title>
+        <mat-card-title>Telegrams Analysis</mat-card-title>
         <mat-card-subtitle></mat-card-subtitle>
       </mat-card-title-group>
       <mat-card-content>
         <div class="query-button-row">
           <mat-form-field class="mat-input-medium" appearance="standard">
             <mat-label>TS Interval (ms)</mat-label>
-            <input  matInput type="number" min="1000" autocomplete="off" placeholder="1000ms" [(ngModel)]="TsInterval" matTooltip="Interval between two records (ms)">
+            <input  matInput type="number" min="1000" max="3600000" autocomplete="off" placeholder="1000ms" [(ngModel)]="TsInterval" matTooltip="Interval between two records (ms)">
           </mat-form-field>
-          <button mat-raised-button color="warn" [disabled]="telegramsToAnalize==null || TsInterval<1000 || TsInterval==null || analysisRunning==true" (click)="analyzeTelegramsData(TsInterval)">Analyze Telegrams</button>
+          <button mat-raised-button color="warn" [disabled]="TsInterval>3600000 || TsInterval<1000 || TsInterval==null || analysisRunning==true" (click)="analyzeFromCapture(TsInterval)">Import from Capture</button>  
+          <button mat-raised-button color="warn" [disabled]="TsInterval>3600000 || TsInterval<1000 || TsInterval==null || analysisRunning==true" (click)="importTelegramsToAnalyze()">Import from File</button>
+          <input type="file" #json accept=".json" style="display: none" (change)="onTelegramasAdded(TsInterval)"/> 
           <button mat-raised-button [disabled]="analyzedData==null || analysisRunning==true" (click)="exportAnalyzedData()">Export JSON</button>
           <button mat-raised-button (click)="clearAnalyzedData()">Clear all</button>
         </div>

@@ -2,16 +2,16 @@ version: "3.7"
 
 services:
   perf-analyzer-webapp:
-    image: cadugrillo/perf-analyzer-webapp:1.5local
+    image: cadugrillo/perf-analyzer-webapp:2.0local
     container_name: perf-analyzer-webapp
     restart: always
     ports:
       - 80:80
-    mem_limit: 1024m
+    mem_limit: 512m
     cpus: 0.5
 
   perf-analyzer-api:
-    image: cadugrillo/perf-analyzer-api:1.5
+    image: cadugrillo/perf-analyzer-api:2.0
     container_name: perf-analyzer-api
     restart: always
     mem_limit: 2048m
