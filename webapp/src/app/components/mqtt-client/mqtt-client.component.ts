@@ -66,7 +66,7 @@ export class MqttClientComponent implements OnInit, OnDestroy {
 }
 
   subscribeToTopic(topic: string) {
-    if (this.topic != '' && this.maxCapturedMessages >= 1 && this.maxCapturedMessages <= 5000) {
+    if (this.topic != '' && this.maxCapturedMessages >= 1 && this.maxCapturedMessages <= 10000) {
       this.running = true;
       this.subscription = this.mqttClientService.topic(topic).subscribe((data: IMqttMessage) => {
         //console.log('Initial time:'+this.getTimestamp("display"));
