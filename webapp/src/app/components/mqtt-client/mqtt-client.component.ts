@@ -130,7 +130,25 @@ export class MqttClientComponent implements OnInit, OnDestroy {
   }
 
   exportMessages() {
-    return saveAs(new Blob([JSON.stringify(this.wrapMessages(), null, 2)], { type: 'JSON' }), 'messages_'+this.getTimestamp("file")+'.json');
+    return saveAs(new Blob([this.wrapMessagesToExport()], { type: 'JSON' }), 'messages_'+this.getTimestamp("file")+'.json');
+  }
+
+  wrapMessagesToExport(): string {
+
+    var exportedData = "[";
+    for(var i=0; i < this.messages.length - 1; i++){
+      let exportedDataItem = new ExportedData
+      exportedDataItem.topic = this.messages[i].topic;
+      exportedDataItem.payload = JSON.parse(this.messages[i].payload.toString());
+      exportedData+=JSON.stringify(exportedDataItem, null, 2)+",";
+    }
+
+    let exportedDataItem = new ExportedData
+    exportedDataItem.topic = this.messages[this.messages.length - 1].topic;
+    exportedDataItem.payload = JSON.parse(this.messages[this.messages.length - 1].payload.toString());
+    exportedData+=JSON.stringify(exportedDataItem, null, 2)+"]";
+    
+    return exportedData
   }
 
   wrapMessages(): ExportedData[] {
