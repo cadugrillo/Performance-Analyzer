@@ -1,6 +1,8 @@
 package main
 
 import (
+	"path"
+	"path/filepath"
 	"performance-analyzer/handlers"
 	"runtime/debug"
 
@@ -12,6 +14,16 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.Use(CORSMiddleware())
+
+	r.NoRoute(func(c *gin.Context) {
+		dir, file := path.Split(c.Request.RequestURI)
+		ext := filepath.Ext(file)
+		if file == "" || ext == "" {
+			c.File("./webapp/dist/performance-analyzer/index.html")
+		} else {
+			c.File("./webapp/dist/performance-analyzer/" + path.Join(dir, file))
+		}
+	})
 
 	r.POST("/performance-analyzer/signals/parse", handlers.ParseSignalsHandler)
 	r.POST("/performance-analyzer/signals/endresponse", handlers.EndpointResponseHandler)
