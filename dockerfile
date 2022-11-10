@@ -34,4 +34,4 @@ COPY --from=node-builder /webapp/dist/ /webapp/dist/performance-analyzer
 
 EXPOSE 4300
 
-ENTRYPOINT [ "PerfAnalyzerApi" ]
+ENTRYPOINT [ "/PerfAnalyzerApi" ]
