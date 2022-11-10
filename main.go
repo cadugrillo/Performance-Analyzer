@@ -21,7 +21,7 @@ func main() {
 		if file == "" || ext == "" {
 			c.File("./webapp/dist/performance-analyzer/index.html")
 		} else {
-			c.File("./webapp/dist/performance-analyzer/" + path.Join(dir, file))
+			c.File("./webapp/dist/" + path.Join(dir, file))
 		}
 	})
 

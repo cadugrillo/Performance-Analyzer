@@ -13,7 +13,7 @@ RUN go mod download
 COPY main.go ./
 COPY ./handlers/ /usr/local/go/src/performance-analyzer/handlers
 COPY ./modules/ /usr/local/go/src/performance-analyzer/modules
-RUN CGO_ENABLED=1 GOOS=${TARGETOS} GOARCH=${TARGETARCH} GOFLAGS=-mod=mod go build -ldflags="-w -s" -o /PerfAnalyzerApi
+RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} GOFLAGS=-mod=mod go build -ldflags="-w -s" -o /PerfAnalyzerApi
 
 #BUILD WEBAPP
 FROM node:latest as node-builder
