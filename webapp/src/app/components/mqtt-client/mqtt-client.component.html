@@ -15,7 +15,11 @@
       <button mat-raised-button color="primary" [disabled]="running" (click)="subscribeToTopic(topic)">Start</button>
       <button mat-raised-button color="primary" [disabled]="!running" (click)="unsubscribeTopic()">Stop</button>
       <button mat-raised-button color="primary" (click)="clearData()">Clear</button>
-      <button mat-raised-button color="primary" [disabled]="running" (click)="exportMessages()">Export Messages</button>
+      <mat-form-field class="mat-input-small" appearance="standard">
+        <mat-label>Messages per exp. File</mat-label>
+        <input  matInput type="number" min="1000" max="5000" autocomplete="off" placeholder="1000" [disabled]="running" [(ngModel)]="maxMessagesPerExport">
+      </mat-form-field>
+      <button mat-raised-button color="primary" [disabled]="running || maxMessagesPerExport<1000 || maxMessagesPerExport>5000" (click)="exportMessages()">Export Messages</button>
       <span> (Point your MQTT Publisher to: http://your-ip-address, port 1883)</span>
     </div>
 <div class="table-wrapper">

@@ -31,6 +31,7 @@ export class MqttClientComponent implements OnInit, OnDestroy {
   subscription!: Subscription;
   topic: string = '';
   maxCapturedMessages = 5000;
+  maxMessagesPerExport = 5000;
   running: boolean = false;
   dataSource!: MatTableDataSource<IMqttMessage>;
   telegramsToAnalize!: Object;
@@ -79,7 +80,7 @@ export class MqttClientComponent implements OnInit, OnDestroy {
         }
         //console.log('Final time:'+this.getTimestamp("display"));
       });
-    } else this.dialog.open(MessagePopupComponent, {data: {title: "Error", text: "Topic field cannot be empty and/or number of captured messages should be between 1 and 5000!"}});
+    } else this.dialog.open(MessagePopupComponent, {data: {title: "Error", text: "Topic field cannot be empty and/or number of captured messages should be between 1 and 10000!"}});
   }
 
   unsubscribeTopic() {
@@ -130,25 +131,27 @@ export class MqttClientComponent implements OnInit, OnDestroy {
   }
 
   exportMessages() {
-    return saveAs(new Blob([this.wrapMessagesToExport()], { type: 'JSON' }), 'messages_'+this.getTimestamp("file")+'.json');
-  }
 
-  wrapMessagesToExport(): string {
+    var j = 0;
+    var k = 0;
+    let exportedData: ExportedData[] = [];
 
-    var exportedData = "[";
-    for(var i=0; i < this.messages.length - 1; i++){
-      let exportedDataItem = new ExportedData
+    for (var i = 0; i < this.messages.length; i++ ){
+
+      let exportedDataItem = new ExportedData;
       exportedDataItem.topic = this.messages[i].topic;
       exportedDataItem.payload = JSON.parse(this.messages[i].payload.toString());
-      exportedData+=JSON.stringify(exportedDataItem, null, 2)+",";
-    }
+      exportedData.push(exportedDataItem);
+      j = j + 1;
 
-    let exportedDataItem = new ExportedData
-    exportedDataItem.topic = this.messages[this.messages.length - 1].topic;
-    exportedDataItem.payload = JSON.parse(this.messages[this.messages.length - 1].payload.toString());
-    exportedData+=JSON.stringify(exportedDataItem, null, 2)+"]";
-    
-    return exportedData
+      if (j == this.maxMessagesPerExport || i == this.messages.length - 1) {
+        saveAs(new Blob([JSON.stringify(exportedData, null, 2)], { type: 'JSON' }), 'messages_'+this.getTimestamp("file")+'_part_'+k+'.json');
+        j = 0;
+        k = k +1;
+        exportedData = [];
+      }
+    }
+    return 
   }
 
   wrapMessages(): ExportedData[] {
