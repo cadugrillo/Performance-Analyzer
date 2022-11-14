@@ -5,6 +5,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
+RUN npm install ngx-mqtt --save
 RUN npm install -g @angular/cli
 RUN ng build --base-href=/performance-analyzer/ --output-path=/dist
 

@@ -23,6 +23,7 @@ COPY ./webapp/package.json ./
 COPY ./webapp/package-lock.json ./
 RUN npm install --force
 COPY ./webapp .
+RUN npm install ngx-mqtt --save
 RUN npm install -g @angular/cli
 RUN ng build --configuration=production-local --base-href=/performance-analyzer/ --output-path=/webapp/dist
 
