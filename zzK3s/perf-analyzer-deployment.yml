@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: perf-analyzer-webapp
-          image: cadugrillo/perf-analyzer-webapp:2.0
+          image: cadugrillo/perf-analyzer-webapp:latest
           imagePullPolicy: Always
           resources:
             requests:
@@ -75,7 +75,7 @@ spec:
     spec:
       containers:
         - name: perf-analyzer-api
-          image: cadugrillo/perf-analyzer-api:2.0
+          image: cadugrillo/perf-analyzer-api:latest
           imagePullPolicy: Always
           resources:
             requests:
