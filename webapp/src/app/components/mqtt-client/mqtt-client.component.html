@@ -1,5 +1,5 @@
 <mat-toolbar class="app-toolbar">
-    <span>CG-EDGE - IOT Core -  Test Client</span>
+    <span>IOT Core -  Test Client</span>
   </mat-toolbar>
   <mat-tab-group class="tab-group">
     <mat-tab label="Capture">
@@ -10,16 +10,16 @@
       </mat-form-field>
       <mat-form-field class="mat-input-small" appearance="standard">
         <mat-label>Messages to Capture</mat-label>
-        <input  matInput type="number" min="1" max="10000" autocomplete="off" placeholder="1000" [disabled]="running" [(ngModel)]="maxCapturedMessages">
+        <input  matInput type="number" min="1" max="1000000" autocomplete="off" placeholder="1000" [disabled]="running" [(ngModel)]="maxCapturedMessages">
       </mat-form-field>
       <button mat-raised-button color="primary" [disabled]="running" (click)="subscribeToTopic(topic)">Start</button>
       <button mat-raised-button color="primary" [disabled]="!running" (click)="unsubscribeTopic()">Stop</button>
       <button mat-raised-button color="primary" (click)="clearData()">Clear</button>
       <mat-form-field class="mat-input-small" appearance="standard">
         <mat-label>Messages per exp. File</mat-label>
-        <input  matInput type="number" min="1000" max="5000" autocomplete="off" placeholder="1000" [disabled]="running" [(ngModel)]="maxMessagesPerExport">
+        <input  matInput type="number" min="1000" max="1000000" autocomplete="off" placeholder="1000" [disabled]="running" [(ngModel)]="maxMessagesPerExport">
       </mat-form-field>
-      <button mat-raised-button color="primary" [disabled]="running || maxMessagesPerExport<1000 || maxMessagesPerExport>5000" (click)="exportMessages()">Export Messages</button>
+      <button mat-raised-button color="primary" [disabled]="running || maxMessagesPerExport<1000 || maxMessagesPerExport>1000000" (click)="exportMessages()">Export Messages</button>
       <span> (Point your MQTT Publisher to: http://your-ip-address, port 1883)</span>
     </div>
 <div class="table-wrapper">
@@ -71,7 +71,7 @@
   </tr>
 
 </table>
-<mat-paginator [pageSizeOptions]="[10, 50, 100]"
+<mat-paginator [pageSizeOptions]="[10, 50, 100, 500, 1000]"
                     showFirstLastButtons 
                     aria-label="Select page of messages">
 </mat-paginator>

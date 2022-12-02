@@ -30,8 +30,8 @@ export class MqttClientComponent implements OnInit, OnDestroy {
   recTS: string[] = [];
   subscription!: Subscription;
   topic: string = '';
-  maxCapturedMessages = 5000;
-  maxMessagesPerExport = 5000;
+  maxCapturedMessages = 10000;
+  maxMessagesPerExport = 1000000;
   running: boolean = false;
   dataSource!: MatTableDataSource<IMqttMessage>;
   telegramsToAnalize!: Object;
@@ -67,7 +67,7 @@ export class MqttClientComponent implements OnInit, OnDestroy {
 }
 
   subscribeToTopic(topic: string) {
-    if (this.topic != '' && this.maxCapturedMessages >= 1 && this.maxCapturedMessages <= 10000) {
+    if (this.topic != '' && this.maxCapturedMessages >= 1 && this.maxCapturedMessages <= 1000000) {
       this.running = true;
       this.subscription = this.mqttClientService.topic(topic).subscribe((data: IMqttMessage) => {
         //console.log('Initial time:'+this.getTimestamp("display"));
@@ -80,7 +80,7 @@ export class MqttClientComponent implements OnInit, OnDestroy {
         }
         //console.log('Final time:'+this.getTimestamp("display"));
       });
-    } else this.dialog.open(MessagePopupComponent, {data: {title: "Error", text: "Topic field cannot be empty and/or number of captured messages should be between 1 and 10000!"}});
+    } else this.dialog.open(MessagePopupComponent, {data: {title: "Error", text: "Topic field cannot be empty and/or number of captured messages should be between 1 and 1000000"}});
   }
 
   unsubscribeTopic() {
