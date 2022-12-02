@@ -85,7 +85,8 @@ func AnalyzeCapMqttDataHandler(c *gin.Context) {
 
 	Telegrams, statusCode, err := JsonBodyToCapMqttData(c.Request.Body)
 	if err != nil {
-		c.JSON(statusCode, err)
+		//c.JSON(statusCode, err)
+		c.JSON(statusCode, analyze_captured_data.AnalyzedData{Issues: []analyze_captured_data.Issue{{SignalId: "Internal Error", Messages: []string{err.Error()}}}})
 		return
 	}
 
@@ -102,7 +103,7 @@ func JsonBodyToCapMqttData(httpBody io.ReadCloser) (*[]analyze_captured_data.Tel
 	err = json.Unmarshal(body, &CapMqttData)
 	if err != nil {
 		fmt.Println(err.Error())
-		return nil, http.StatusBadRequest, err
+		return nil, http.StatusOK, err
 	}
 	return &CapMqttData, http.StatusOK, nil
 }
