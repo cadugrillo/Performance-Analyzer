@@ -28,6 +28,10 @@ export class SignalsService {
   analizeTelegramsData(file: any, tsInterval: number) {
     return this.httpClient.post(environment.gateway + '/performance-analyzer/signals/analyzetelegrams/'+tsInterval, file);
   }
+
+  analizeTelegramsDbusData(file: any, tsInterval: number) {
+    return this.httpClient.post(environment.gateway + '/performance-analyzer/signals/analyzedbustelegrams/'+tsInterval, file);
+  }
 }
 
 export class ParsedSignals {

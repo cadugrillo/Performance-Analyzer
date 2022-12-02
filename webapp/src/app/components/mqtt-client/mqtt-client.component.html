@@ -91,6 +91,10 @@
             <mat-label>TS Interval (ms)</mat-label>
             <input  matInput type="number" min="1000" max="3600000" autocomplete="off" placeholder="1000ms" [(ngModel)]="TsInterval" matTooltip="Interval between two records (ms)">
           </mat-form-field>
+          <mat-radio-group [(ngModel)]="checkbox">
+            <mat-radio-button class="checkbox-margin" color="primary" [checked]="true" [value]="true">IE Cloud Conn.</mat-radio-button>
+            <mat-radio-button class="checkbox-margin" color="primary" [value]="false">Databus</mat-radio-button>
+          </mat-radio-group>
           <button mat-raised-button color="warn" [disabled]="TsInterval>3600000 || TsInterval<1000 || TsInterval==null || analysisRunning==true" (click)="analyzeFromCapture(TsInterval)">Import from Capture</button>  
           <button mat-raised-button color="warn" [disabled]="TsInterval>3600000 || TsInterval<1000 || TsInterval==null || analysisRunning==true" (click)="importTelegramsToAnalyze()">Import from File</button>
           <input type="file" #json accept=".json" style="display: none" (change)="onTelegramasAdded(TsInterval)"/> 
