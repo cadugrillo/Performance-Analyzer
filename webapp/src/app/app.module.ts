@@ -10,6 +10,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
 import {MatCardModule} from '@angular/material/card';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -74,6 +75,7 @@ const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     MatButtonModule,
     MatIconModule,
     MatCheckboxModule,
+    MatRadioModule,
     MatDialogModule,
     MatToolbarModule,
     MatTabsModule,

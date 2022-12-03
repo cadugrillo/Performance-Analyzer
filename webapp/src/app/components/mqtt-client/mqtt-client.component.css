@@ -120,7 +120,7 @@ table {
   
   .query-button-row {
     display: table-cell;
-    width: 1000px;
+    width: 1200px;
     margin: 8px;
   }
 
@@ -141,3 +141,6 @@ table {
     margin-right: 30px;
   }
 
+  .checkbox-margin {
+    margin-right: 30px;
+  }

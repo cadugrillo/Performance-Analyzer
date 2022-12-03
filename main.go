@@ -29,6 +29,7 @@ func main() {
 	r.POST("/performance-analyzer/signals/endresponse", handlers.EndpointResponseHandler)
 	r.GET("/performance-analyzer/signals/analyzedata/:TsInterval", handlers.GetAnalyzedDataHandler)
 	r.POST("/performance-analyzer/signals/analyzetelegrams/:TsInterval", handlers.AnalyzeCapMqttDataHandler)
+	r.POST("/performance-analyzer/signals/analyzedbustelegrams/:TsInterval", handlers.AnalyzeCapMqttDbusDataHandler)
 
 	err := r.Run(":4300")
 	if err != nil {

@@ -39,6 +39,7 @@ export class MqttClientComponent implements OnInit, OnDestroy {
   analyzedData!: AnalyzedData;
   analysisRunning: boolean = false;
   TsInterval!: number;
+  checkbox: boolean = true;
 
 
   columnsToDisplay = ['Topic', 'Timestamp'];
@@ -169,13 +170,22 @@ export class MqttClientComponent implements OnInit, OnDestroy {
   analyzeFromCapture(tsInterval: number) {
     this.dialog.open(WaitPopupComponent, {});
     this.analysisRunning = true;
-    this.SignalsService.analizeTelegramsData(this.wrapMessages(), tsInterval).subscribe((data) => {
-      this.analyzedData = data as AnalyzedData;
-      this.dialog.closeAll();
-      this.analysisRunning = false;
-      this.dialog.open(MessagePopupComponent, {data: {title: "Analysis Finished", text: "Check Results!"}});
-    });
 
+    if (this.checkbox) {
+      this.SignalsService.analizeTelegramsData(this.wrapMessages(), tsInterval).subscribe((data) => {
+        this.analyzedData = data as AnalyzedData;
+        this.dialog.closeAll();
+        this.analysisRunning = false;
+        this.dialog.open(MessagePopupComponent, {data: {title: "Analysis Finished", text: "Check Results!"}});
+      });
+    } else {
+      this.SignalsService.analizeTelegramsDbusData(this.wrapMessages(), tsInterval).subscribe((data) => {
+        this.analyzedData = data as AnalyzedData;
+        this.dialog.closeAll();
+        this.analysisRunning = false;
+        this.dialog.open(MessagePopupComponent, {data: {title: "Analysis Finished", text: "Check Results!"}});
+      });
+    }
 
   }
 
@@ -188,12 +198,22 @@ export class MqttClientComponent implements OnInit, OnDestroy {
     this.analysisRunning = true;
     const jsonfile = this.json.nativeElement.files[0];
     this.json.nativeElement.value = "";
-    this.SignalsService.analizeTelegramsData(jsonfile, tsInterval).subscribe((data) => {
-      this.analyzedData = data as AnalyzedData;
-      this.dialog.closeAll();
-      this.analysisRunning = false;
-      this.dialog.open(MessagePopupComponent, {data: {title: "Analysis Finished", text: "Check Results!"}});
-    });
+
+    if (this.checkbox) {
+      this.SignalsService.analizeTelegramsData(jsonfile, tsInterval).subscribe((data) => {
+        this.analyzedData = data as AnalyzedData;
+        this.dialog.closeAll();
+        this.analysisRunning = false;
+        this.dialog.open(MessagePopupComponent, {data: {title: "Analysis Finished", text: "Check Results!"}});
+      });
+    } else {
+      this.SignalsService.analizeTelegramsDbusData(jsonfile, tsInterval).subscribe((data) => {
+        this.analyzedData = data as AnalyzedData;
+        this.dialog.closeAll();
+        this.analysisRunning = false;
+        this.dialog.open(MessagePopupComponent, {data: {title: "Analysis Finished", text: "Check Results!"}});
+      });
+    }
   }
 
   exportAnalyzedData() {

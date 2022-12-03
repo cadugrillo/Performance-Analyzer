@@ -42,7 +42,7 @@ func FileBodyToExcel(httpBody io.ReadCloser) (int, error) {
 	return http.StatusOK, nil
 }
 
-///////////////ENDPOINT RESPONSE HANDLER/////////////////
+///////////////ENDPOINT RESPONSE HANDLERS/////////////////
 
 func EndpointResponseHandler(c *gin.Context) {
 	Response, statusCode, err := JsonBodyToEndpointResponse(c.Request.Body)
@@ -72,12 +72,15 @@ func JsonBodyToEndpointResponse(httpBody io.ReadCloser) (analyze_signals.Endpoin
 	return EndpointResponse, http.StatusOK, nil
 }
 
-// //////////////ANALYZE SIGNALS DATA HANDLER///////////////
 func GetAnalyzedDataHandler(c *gin.Context) {
 	TsIntervalString := c.Param("TsInterval")
 	TsInterval, _ := strconv.ParseInt(TsIntervalString, 10, 64)
 	c.JSON(http.StatusOK, analyze_signals.AnalyzeData(TsInterval))
 }
+
+//////////////////////////////////////////////////////////////////////////////
+
+///////////////MQTT TELEGRAMS HANDLERS/////////////////
 
 func AnalyzeCapMqttDataHandler(c *gin.Context) {
 	TsIntervalString := c.Param("TsInterval")
@@ -93,6 +96,20 @@ func AnalyzeCapMqttDataHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, analyze_captured_data.AnalyzeData(Telegrams, TsInterval))
 }
 
+func AnalyzeCapMqttDbusDataHandler(c *gin.Context) {
+	TsIntervalString := c.Param("TsInterval")
+	TsInterval, _ := strconv.ParseInt(TsIntervalString, 10, 64)
+
+	Telegrams, statusCode, err := JsonBodyToCapMqttDbusData(c.Request.Body)
+	if err != nil {
+		//c.JSON(statusCode, err)
+		c.JSON(statusCode, analyze_captured_data.AnalyzedData{Issues: []analyze_captured_data.Issue{{SignalId: "Internal Error", Messages: []string{err.Error()}}}})
+		return
+	}
+
+	c.JSON(http.StatusOK, analyze_captured_data.AnalyzeDbusData(Telegrams, TsInterval))
+}
+
 func JsonBodyToCapMqttData(httpBody io.ReadCloser) (*[]analyze_captured_data.Telegram, int, error) {
 	body, err := ioutil.ReadAll(httpBody)
 	if err != nil {
@@ -106,4 +123,19 @@ func JsonBodyToCapMqttData(httpBody io.ReadCloser) (*[]analyze_captured_data.Tel
 		return nil, http.StatusOK, err
 	}
 	return &CapMqttData, http.StatusOK, nil
+}
+
+func JsonBodyToCapMqttDbusData(httpBody io.ReadCloser) (*[]analyze_captured_data.DbusTelegram, int, error) {
+	body, err := ioutil.ReadAll(httpBody)
+	if err != nil {
+		return nil, http.StatusInternalServerError, err
+	}
+	defer httpBody.Close()
+	var CapMqttDbusData []analyze_captured_data.DbusTelegram
+	err = json.Unmarshal(body, &CapMqttDbusData)
+	if err != nil {
+		fmt.Println(err.Error())
+		return nil, http.StatusOK, err
+	}
+	return &CapMqttDbusData, http.StatusOK, nil
 }
