@@ -14,7 +14,7 @@ kubectl attach -i POD -c CONTAINER
 //////BUILD MULTI ARCH DOCKER IMAGES////////////
 
 ------API-------
-docker build --platform=linux/amd64 -t cadugrillo/perf-analyzer-api:latest .
+docker build --platform=linux/amd64 -t cadugrillo/perf-analyzer-api:2.2 .
 
 -----WEBAPP-------
-docker build --platform=linux/amd64 -t cadugrillo/perf-analyzer-webapp:latest .
+docker build --platform=linux/amd64 -t cadugrillo/perf-analyzer-webapp:2.1 .
