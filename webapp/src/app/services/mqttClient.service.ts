@@ -10,6 +10,6 @@ export class MqttClientService {
   constructor(private mqttClientService: MqttService) { }
 
   topic(topic: string): Observable<IMqttMessage> {
-    return this.mqttClientService.observe(topic);
+    return this.mqttClientService.observe(topic, {qos: 2});
   }
 }
