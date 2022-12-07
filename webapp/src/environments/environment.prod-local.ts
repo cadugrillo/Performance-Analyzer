@@ -9,7 +9,8 @@ export const environment = {
 	server: window.location.hostname,
 	protocol: "ws",
 	port: 9884,
-    username: '',
-    password: '',
+  pub_port: 1883,
+  username: '',
+  password: '',
 	}
 };

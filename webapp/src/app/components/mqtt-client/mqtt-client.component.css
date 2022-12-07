@@ -33,6 +33,12 @@
   margin-left: 20px;
 }
 
+.mat-input-xsmall {
+  margin-top: 20px;
+  width: 60px;
+  margin-left: 20px;
+}
+
 .mat-input-medium {
   width: 150px;
   margin-right: 20px;

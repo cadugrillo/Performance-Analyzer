@@ -10,6 +10,8 @@ import { MessagePopupComponent } from '../message-popup/message-popup.component'
 import { WaitPopupComponent } from '../wait-popup/wait-popup.component';
 import { MatDialog } from '@angular/material/dialog';
 import { saveAs } from "file-saver";
+import { env } from 'process';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-mqtt-client',
@@ -40,7 +42,9 @@ export class MqttClientComponent implements OnInit, OnDestroy {
   analysisRunning: boolean = false;
   TsInterval!: number;
   checkbox: boolean = true;
-
+  broker_url: string = 'tcp://' + environment.mqtt.server + ":" + environment.mqtt.pub_port;
+  qos: 0 | 1 | 2 = 2;
+  
 
   columnsToDisplay = ['Topic', 'Timestamp'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
@@ -70,7 +74,7 @@ export class MqttClientComponent implements OnInit, OnDestroy {
   subscribeToTopic(topic: string) {
     if (this.topic != '' && this.maxCapturedMessages >= 1 && this.maxCapturedMessages <= 1000000) {
       this.running = true;
-      this.subscription = this.mqttClientService.topic(topic).subscribe((data: IMqttMessage) => {
+      this.subscription = this.mqttClientService.topic(topic, this.qos).subscribe((data: IMqttMessage) => {
         //console.log('Initial time:'+this.getTimestamp("display"));
         this.messages.push(data);
         this.recTS.push(this.getTimestamp("display"));

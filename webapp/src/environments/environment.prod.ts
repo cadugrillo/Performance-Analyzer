@@ -9,6 +9,7 @@ export const environment = {
 		server: 'apps.cadugrillo.com',
 		protocol: "ws",
 		port: 9884,
+    pub_port: 8883,
     username: 'cguser05',
     password: 'cguser05',
 	}

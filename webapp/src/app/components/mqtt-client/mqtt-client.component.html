@@ -8,6 +8,14 @@
         <mat-label>Topic to Subscribe</mat-label>
         <input  matInput autocomplete="off" placeholder="mydevice/mytopic" [disabled]="running" [(ngModel)]="topic">
       </mat-form-field>
+      <mat-form-field class="mat-input-xsmall" appearance="standard">
+        <mat-label>QoS</mat-label>
+        <mat-select [(ngModel)]="qos" disableOptionCentering [disabled]="running">
+          <mat-option [value]="0">0</mat-option>
+          <mat-option [value]="1">1</mat-option>
+          <mat-option [value]="2">2</mat-option>
+        </mat-select>
+      </mat-form-field>
       <mat-form-field class="mat-input-small" appearance="standard">
         <mat-label>Messages to Capture</mat-label>
         <input  matInput type="number" min="1" max="1000000" autocomplete="off" placeholder="1000" [disabled]="running" [(ngModel)]="maxCapturedMessages">
@@ -20,7 +28,7 @@
         <input  matInput type="number" min="1000" max="1000000" autocomplete="off" placeholder="1000" [disabled]="running" [(ngModel)]="maxMessagesPerExport">
       </mat-form-field>
       <button mat-raised-button color="primary" [disabled]="running || maxMessagesPerExport<1000 || maxMessagesPerExport>1000000" (click)="exportMessages()">Export Messages</button>
-      <span> (Point your MQTT Publisher to: http://your-ip-address, port 1883)</span>
+      <span> (Point your MQTT Publisher to: {{broker_url}})</span>
     </div>
 <div class="table-wrapper">
   <mat-form-field class="mat-filter" appearance="standard">
